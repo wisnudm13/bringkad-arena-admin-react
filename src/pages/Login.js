@@ -1,3 +1,9 @@
+import { LoginForm } from "../components/LoginForm"
+
 export function Login() {
-    return <h1>login</h1>
+    return (
+        <>
+            <LoginForm></LoginForm>
+        </>
+    )
 }

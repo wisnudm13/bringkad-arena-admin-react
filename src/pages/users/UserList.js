@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { Link, Navigate} from "react-router-dom"
+
 
 export function UserList() {
     return(
@@ -8,4 +10,5 @@ export function UserList() {
             <Link to="/users/2">User 2</Link>
         </>
     )
+
 }
