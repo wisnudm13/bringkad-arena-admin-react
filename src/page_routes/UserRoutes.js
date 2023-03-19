@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom"
 import { UserList } from '../pages/users/UserList';
 import { User } from "../pages/users/User";
-import { AdminPanelLayout } from "../pages/AdminPanelLayout";
+import { AdminPanelLayout } from "../components/AdminPanelLayout";
 
 export function UserRoutes() {
     return (

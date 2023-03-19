@@ -10,13 +10,14 @@ function App() {
   return (
     <>
     <Routes>
-      <Route path="/" element={<Home/>}/>
       <Route path="/login" element={<Login/>}/>
 
       {/* Protected routes */}
+      <Route path="/" element={<Home/>}/>
       <Route element={<ProtectedRoutes/>}>
         <Route path="/users/*" element={<UserRoutes/>}/>
       </Route>
+
 
       
       
