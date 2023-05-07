@@ -1,0 +1,19 @@
+import { Routes, Route } from "react-router-dom"
+import { UserList } from '../pages/users/UserList';
+import { User } from "../pages/users/User";
+import { AdminPanelLayout } from "../components/AdminPanelLayout";
+
+export function AdminRoutes() {
+    return (
+        <>
+            <Routes>
+                <Route element={ <AdminPanelLayout/>}>
+                    <Route index element={<UserList/>}/>
+                    <Route path=":user_id" element={<User/>}/>
+                </Route>
+                
+            </Routes>
+        </>
+        
+    )
+}

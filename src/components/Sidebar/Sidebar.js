@@ -112,13 +112,16 @@ import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
+import { Link } from "react-router-dom";
 
 function CustomSidebar() {
     const { collapseSidebar } = useProSidebar();
+    console.log(process.env.REACT_APP_API_URL)
 
     return (
         <div id="sidebar" style={({ height: "100vh" }, { display: "flex" })}>
-          <Sidebar style={{ height: "100vh" }}>
+          <Sidebar style={{ height: "100vh", width: "17vw", collapsedWidth: "10000px"}}>
             <Menu>
               <MenuItem
                 icon={<MenuOutlinedIcon />}
@@ -126,19 +129,21 @@ function CustomSidebar() {
                   collapseSidebar();
                 }}
                 style={{ textAlign: "center",}}
-              >
-                {" "}
-                
-                <h2>Admin</h2>
+              >                
+                <h3>Bringkad Arena Admin</h3>
               </MenuItem>
     
-              <MenuItem icon={<HomeOutlinedIcon />}>Home</MenuItem>
-              <MenuItem icon={<PeopleOutlinedIcon />}>User</MenuItem>
+              <MenuItem component={<Link to="/"/>} icon={<HomeOutlinedIcon />}>Home</MenuItem>
+              <MenuItem component={<Link to="/users"/>} icon={<PeopleOutlinedIcon />}>User</MenuItem>
               <MenuItem icon={<ContactsOutlinedIcon />}>Facility</MenuItem>
               <MenuItem icon={<ReceiptOutlinedIcon />}>Order</MenuItem>
               <MenuItem icon={<HelpOutlineOutlinedIcon />}>Transaction</MenuItem>
+              <MenuItem component={<Link to="/admins"/>} icon={<AdminPanelSettingsOutlinedIcon />}>Admin</MenuItem>
               <MenuItem icon={<CalendarTodayOutlinedIcon />}>Calendar</MenuItem>
             </Menu>
+            <main>
+        <button onClick={() => collapseSidebar()}>Collapse</button>
+      </main>
           </Sidebar>
         </div>
       );

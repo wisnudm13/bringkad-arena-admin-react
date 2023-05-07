@@ -1,19 +1,14 @@
 import { useEffect, useLayoutEffect, useState } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import axios from '../tools/axios'
+import { validateTokenAdmin } from '../tools/bringkad_arena/Auth';
 
 export function ProtectedRoutes () {
     const [isAuth, setIsAuth] = useState();
-    const authToken = localStorage.getItem("authToken")
   
     useEffect(() => {
-        axios.post('/api/v1/admins/validate-token',{}, {
-            headers: { 
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${authToken}`
-            },
-
-        }).then(function (res) {
+        validateTokenAdmin()
+        .then(function (res) {
             setIsAuth(true);
 
         }).catch(function (err) {
