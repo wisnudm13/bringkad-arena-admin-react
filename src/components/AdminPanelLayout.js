@@ -16,9 +16,12 @@ export function AdminPanelLayout() {
                 <Toolbar></Toolbar>
             </Box> */}
         <div style={( { display: "flex" })}>
-            <CustomSidebar>
-            </CustomSidebar>
-            <Outlet/>
+            <CustomSidebar/>
+            <div style={{display: "flex", flexDirection: "column"}}>
+                <h1>tesssss</h1>
+                <Outlet/>
+            </div>
+            
 
         </div>
 

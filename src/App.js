@@ -5,26 +5,31 @@ import { Home } from './pages/Home';
 import { UserRoutes } from './page_routes/UserRoutes';
 import { NotFound } from './pages/NotFound';
 import { ProtectedRoutes } from './components/ProtectedRoute';
+import { useState } from 'react';
 
 function App() {
+  const [backgroundColor, setBackgroundColor] = useState("#ffffff")
+
   return (
     <>
-    <Routes>
-      <Route path="/login" element={<Login/>}/>
+    <div style={{background: backgroundColor}}>
+      <Routes>
+        <Route path="/login" element={<Login/>}/>
 
-      {/* Protected routes */}
-      <Route path="/" element={<Home/>}/>
-      <Route element={<ProtectedRoutes/>}>
-        <Route path="/users/*" element={<UserRoutes/>}/>
-      </Route>
+        {/* Protected routes */}
+        <Route path="/" element={<Home/>}/>
+        <Route element={<ProtectedRoutes/>}>
+          <Route path="/users/*" element={<UserRoutes/>}/>
+        </Route>
 
 
-      
-      
+        
+        
 
-      {/* Not Found */}
-      <Route path="*" element={<NotFound/>}/>
-    </Routes>
+        {/* Not Found */}
+        <Route path="*" element={<NotFound/>}/>
+      </Routes>
+    </div>
   </>
   
   )

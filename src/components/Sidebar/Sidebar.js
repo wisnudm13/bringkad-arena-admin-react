@@ -120,8 +120,8 @@ function CustomSidebar() {
     console.log(process.env.REACT_APP_API_URL)
 
     return (
-        <div id="sidebar" style={({ height: "100vh" }, { display: "flex" })}>
-          <Sidebar style={{ height: "100vh", width: "17vw", collapsedWidth: "10000px"}}>
+        <div id="sidebar" style={({ height: "100%" }, { display: "flex" })}>
+          <Sidebar style={{ backgroundColor: "green", height: "100vh", width: "17vw", collapsedWidth: "10000px"}}>
             <Menu>
               <MenuItem
                 icon={<MenuOutlinedIcon />}
@@ -142,7 +142,6 @@ function CustomSidebar() {
               <MenuItem icon={<CalendarTodayOutlinedIcon />}>Calendar</MenuItem>
             </Menu>
             <main>
-        <button onClick={() => collapseSidebar()}>Collapse</button>
       </main>
           </Sidebar>
         </div>

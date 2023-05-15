@@ -4,6 +4,7 @@ import { getUserList } from "../../tools/bringkad_arena/User";
 import DataTable from "../../components/Table/Table";
 import { Button, Typography } from "@mui/material";
 import UserTable from "../../components/Table/UserTable";
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 
 export function UserList() {
     const params = {
@@ -23,7 +24,8 @@ export function UserList() {
                     var objData = {
                         id: element.id,
                         name: element.name,
-                        phone_number: element.phone_number
+                        phone_number: element.phone_number,
+                        created_at: element.created_at
                     }
 
                     rows.push(objData)
@@ -38,11 +40,35 @@ export function UserList() {
 
     return(
         <>
-            <div style={{width: "100vw", display: "flex", flexDirection: "column"}}>
-                <div style={{display: "flex", padding: 30}}> 
+            <div style={{width: "100vw", backgroundColor: "#EFF2F8"}}>
+                <div style={{display: "flex", flexDirection: "column"}}> 
+                    <div style={{display: "flex", flexDirection: "row", padding: 15}}>
+                        <div>
+                            <h1>User</h1>
+                        </div>
+
+                        <div style={{marginRight: 0}}>
+                        <Button 
+                            sx={{
+                                textAlign: "center",
+                                borderRadius: 2,
+                                color: "green", 
+                                borderColor: "green",
+                                '&:hover': {
+                                    backgroundColor: 'green',
+                                    color: 'white',
+                                    borderColor: "green"
+                                },
+                            }} 
+                            startIcon={<AddOutlinedIcon />}
+                            variant="outlined">
+                                Add
+                        </Button>
+                        </div>
+
+                    </div>
                     <UserTable userListData={userListData}></UserTable>
 
-                            {/* <Button sx={{marginLeft: "auto"}}>Add User</Button> */}
                 </div>
             </div>
             

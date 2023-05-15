@@ -3,7 +3,7 @@ import DataTable from "./Table"
 import { DataGrid } from "@mui/x-data-grid";
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, TablePagination} from "@mui/material";
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Card,  IconButton, TablePagination} from "@mui/material";
 
 export default function UserTable({userListData}) {
     const [page, setPage] = useState(0);
@@ -11,12 +11,17 @@ export default function UserTable({userListData}) {
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
     return (
-        <div style={{ height: 400, width: '100%' }}>
-            <TableContainer component={Paper}>
+        <div style={{ height: 400, width: '100%', padding: 30 }}>
+            <TableContainer component={Card}>
                 <Table aria-label="simple table">
-                    <TableHead>
+                    <TableHead
+                        // sx={{
+                        //     backgroundColor: "green"
+                        // }}
+                    >
                         <TableRow>
                             <TableCell>ID</TableCell>
+                            <TableCell>Created</TableCell>
                             <TableCell align="left">Name</TableCell>
                             <TableCell align="left">Phone Number</TableCell>
                             <TableCell align="left">Action</TableCell>
@@ -31,6 +36,7 @@ export default function UserTable({userListData}) {
                                 <TableCell component="th" scope="row">
                                     {row.id}
                                 </TableCell>
+                                <TableCell align="left">{row.created_at}</TableCell>
                                 <TableCell align="left">{row.name}</TableCell>
                                 <TableCell align="left">{row.phone_number}</TableCell>
                                 <TableCell>
