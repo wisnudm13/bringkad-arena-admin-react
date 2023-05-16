@@ -15,8 +15,28 @@ export function LoginForm() {
     }
 
     const textFieldStyle = {
-        borderRadius: "50px",
-        marginTop: "10px"
+        borderRadius: 20,
+        marginTop: "10px",
+        fieldset: {
+            borderColor: "green",
+            fontFamily: "Poppins"
+        },
+        input: {
+            color: "#007E3F",
+            fontFamily: "Poppins"
+            
+        },
+        "& label.Mui-focused": {
+            color: "green",
+            fontFamily: "Poppins",
+          },
+          "& .MuiOutlinedInput-root": {
+            "&.Mui-focused fieldset": {
+              borderColor: "green",
+              fontFamily: "Poppins",
+
+            }
+          }
     }
 
     const userNameOrEmailRef = useRef()
@@ -69,6 +89,7 @@ export function LoginForm() {
                 setError(true)
 
             } else {
+                setError(true)
                 setErrorMessage("Something wrong happen")
             }
             
@@ -95,9 +116,14 @@ export function LoginForm() {
                 </Box>:null}
                 <form onSubmit={handleLogin}>
                     <TextField
-                        style={textFieldStyle}
+                        sx={textFieldStyle}
                         id="outlined-uncontrolled"
                         label="Username or Email"
+                        InputLabelProps={{
+                            style: {
+                                fontFamily: "Poppins"
+                            }
+                        }}
                         placeholder="Type here"
                         ref={userNameOrEmailRef}
                         onChange={(e) => setUsernameEmail(e.target.value)}
@@ -106,9 +132,14 @@ export function LoginForm() {
                         required
                     />
                     <TextField
-                        style={textFieldStyle}
+                        sx={textFieldStyle}
                         id="outlined-uncontrolled"
                         label="Password"
+                        InputLabelProps={{
+                            style: {
+                                fontFamily: "Poppins"
+                            }
+                        }}
                         placeholder="Type here"
                         type="password"
                         onChange={(e) => setPassword(e.target.value)}
