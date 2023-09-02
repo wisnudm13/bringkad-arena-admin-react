@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link, Navigate} from "react-router-dom"
-import { getUserList } from "../../tools/bringkad_arena/User";
+import { getUserList } from "../../services/bringkad_arena/User";
 import DataTable from "../../components/Table/Table";
 import { Button, Typography } from "@mui/material";
 import UserTable from "../../components/Table/UserTable";

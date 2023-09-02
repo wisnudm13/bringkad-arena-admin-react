@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useState } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import axios from '../tools/axios'
-import { validateTokenAdmin } from '../tools/bringkad_arena/Auth';
+import { validateTokenAdmin } from '../services/bringkad_arena/Auth';
 
 export function ProtectedRoutes () {
     const [isAuth, setIsAuth] = useState();

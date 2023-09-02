@@ -113,27 +113,69 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
+import { Divider } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 function CustomSidebar() {
     const { collapseSidebar } = useProSidebar();
-    console.log(process.env.REACT_APP_API_URL)
+    const [activeMenu, setActiveMenu] = useState(null);
+
+    function handleActive(event) {
+      if (!event.target.classList.value.includes("active")) {
+        event.target.classList.toggle("active");
+
+        if (activeMenu) {
+          activeMenu.classList.remove("active")
+        
+        setActiveMenu(event.target);
+        }
+
+      }
+
+
+    }
 
     return (
         <div id="sidebar" style={({ height: "100%" }, { display: "flex" })}>
-          <Sidebar style={{ backgroundColor: "green", height: "100vh", width: "17vw", collapsedWidth: "10000px"}}>
-            <Menu>
+          <Sidebar 
+            backgroundColor="#007E3F"
+            width="18vw"
+            style={{ height: "100vh"}}>
+            <Menu menuItemStyles={{
+              button: ({ level, active, disabled }) => {
+                  return {
+                    '&:hover': {
+                      backgroundColor: 'white',
+                      color: '#007E3F',
+                    },
+                    color: "white",
+                    fontFamily: "Poppins",
+                    backgroundColor: active ? '#eecef9' : undefined,
+                  };
+              },
+            }}
+              >
               <MenuItem
                 icon={<MenuOutlinedIcon />}
                 onClick={() => {
                   collapseSidebar();
                 }}
-                style={{ textAlign: "center",}}
+                style={{ textAlign: "center"}}
               >                
-                <h3>Bringkad Arena Admin</h3>
+                <h3 style={{fontFamily: "Poppins"}}>Bringkad Arena Admin</h3>
+                <Divider sx={{
+                        "&::before, &::after": {
+                        borderColor: "black",
+                        },
+                    }}></Divider>
               </MenuItem>
     
-              <MenuItem component={<Link to="/"/>} icon={<HomeOutlinedIcon />}>Home</MenuItem>
+              <MenuItem 
+                component={<Link to="/"/>} 
+                icon={<HomeOutlinedIcon />}
+                onClick={handleActive}
+                >Home</MenuItem>
               <MenuItem component={<Link to="/users"/>} icon={<PeopleOutlinedIcon />}>User</MenuItem>
               <MenuItem icon={<ContactsOutlinedIcon />}>Facility</MenuItem>
               <MenuItem icon={<ReceiptOutlinedIcon />}>Order</MenuItem>
@@ -141,8 +183,6 @@ function CustomSidebar() {
               <MenuItem component={<Link to="/admins"/>} icon={<AdminPanelSettingsOutlinedIcon />}>Admin</MenuItem>
               <MenuItem icon={<CalendarTodayOutlinedIcon />}>Calendar</MenuItem>
             </Menu>
-            <main>
-      </main>
           </Sidebar>
         </div>
       );

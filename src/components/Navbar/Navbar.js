@@ -2,19 +2,21 @@ import { Box, IconButton, useTheme } from "@mui/material"
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import { useEffect } from "react";
 
 const Navbar = () => {
+
     return (
-        <Box display="flex" justifyContent="space-between" padding={2} backgroundColor="#162B21">
+        <div style={{ display: "flex", width: "100vw"}}>
             <Box display="flex" marginLeft="auto">
                 <IconButton>
-                    <SettingsRoundedIcon style={ { color: "#ffffff"}}></SettingsRoundedIcon>
+                    <SettingsRoundedIcon style={ { color: "red"}}></SettingsRoundedIcon>
                 </IconButton>
                 <IconButton>
-                    <LogoutRoundedIcon style={ { color: "#ffffff"}}></LogoutRoundedIcon>
+                    <LogoutRoundedIcon style={ { color: "red"}}></LogoutRoundedIcon>
                 </IconButton>
             </Box>
-        </Box>
+        </div>
     )
 }
 

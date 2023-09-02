@@ -2,7 +2,7 @@ import { Button, Grid, Paper, TextField, Divider, Box, Typography } from "@mui/m
 import { useEffect, useRef, useState } from "react";
 import axios from "../tools/axios";
 import { useNavigate } from "react-router-dom";
-import { loginAdmin } from "../tools/bringkad_arena/Auth";
+import { loginAdmin } from "../services/bringkad_arena/Auth";
 import { Label } from "@mui/icons-material";
 
 export function LoginForm() {
@@ -71,7 +71,9 @@ export function LoginForm() {
             })
 
             const authToken = response?.data.data.auth_token
+            const adminUserName = response?.data.data.user_name
             localStorage.setItem("authToken", authToken)
+            localStorage.setItem("admin_name", adminUserName)
 
             
             setUsernameEmail('')
