@@ -1,9 +1,7 @@
 import { Button, Grid, Paper, TextField, Divider, Box, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import axios from "../tools/axios";
 import { useNavigate } from "react-router-dom";
-import { loginAdmin } from "../services/bringkad_arena/Auth";
-import { Label } from "@mui/icons-material";
+import BringkadArenaAPI from "../services/InternalAPI";
 
 export function LoginForm() {
     const paperStyle = {
@@ -39,62 +37,43 @@ export function LoginForm() {
           }
     }
 
-    const userNameOrEmailRef = useRef()
+    const emailOrUsernameRef = useRef()
     const errorRef = useRef()
     const navigate = useNavigate()
 
-    const [userNameOrEmail, setUsernameEmail] = useState('')
+    const [emailOrUsername, setUsernameEmail] = useState('')
     const [password, setPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState('error')
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(false)
 
     useEffect(() => {
-        userNameOrEmailRef.current.focus();
+        emailOrUsernameRef.current.focus();
     })
 
     useEffect(() => {
         document.body.style.backgroundColor = "#007E3F"
     })
 
-    // useEffect(()=> {
-    //     setErrorMessage('')
-    // }, [userNameOrEmail, password])
-
     const handleLogin = async (e) => {
         e.preventDefault();
 
-        try {
-            const response = await loginAdmin({
-                email_or_username: userNameOrEmail,
-                password: password
-            })
+        const loginResponse = await BringkadArenaAPI.loginAdmin({
+            email_or_username: emailOrUsername,
+            password: password
+        })
 
-            const authToken = response?.data.data.auth_token
-            const adminUserName = response?.data.data.user_name
-            localStorage.setItem("authToken", authToken)
-            localStorage.setItem("admin_name", adminUserName)
+        if (loginResponse.status !== 200) {
+            setError(true)
+            setErrorMessage(loginResponse.message)
 
-            
+        } else {
+            setSuccess(true)
+            localStorage.setItem("authToken", loginResponse.data.auth_token)
+            localStorage.setItem("adminName", loginResponse.data.admin_username)
             setUsernameEmail('')
             setPassword('')
-            setSuccess(true)
-
             navigate("/")
-        } catch (err) {
-            if (!err.response) {
-                setErrorMessage("No server response")
-
-            } else if (err.response?.status == 422) {
-                const errors = err.response?.data?.errors["email_or_username"].toString()
-                setErrorMessage(errors)
-                setError(true)
-
-            } else {
-                setError(true)
-                setErrorMessage("Something wrong happen")
-            }
-            
         }
         
     }
@@ -127,9 +106,9 @@ export function LoginForm() {
                             }
                         }}
                         placeholder="Type here"
-                        ref={userNameOrEmailRef}
+                        ref={emailOrUsernameRef}
                         onChange={(e) => setUsernameEmail(e.target.value)}
-                        value={userNameOrEmail}
+                        value={emailOrUsername}
                         fullWidth
                         required
                     />

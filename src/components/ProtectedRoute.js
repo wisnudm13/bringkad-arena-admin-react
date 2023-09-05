@@ -1,13 +1,13 @@
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
-import axios from '../tools/axios'
-import { validateTokenAdmin } from '../services/bringkad_arena/Auth';
+import BringkadArenaAPI from "../services/InternalAPI";
+
 
 export function ProtectedRoutes () {
     const [isAuth, setIsAuth] = useState();
   
     useEffect(() => {
-        validateTokenAdmin()
+        BringkadArenaAPI.validateTokenAdmin()
         .then(function (res) {
             setIsAuth(true);
 
@@ -18,5 +18,5 @@ export function ProtectedRoutes () {
     
     if (isAuth === undefined) return null; // or loading indicator, etc...
   
-    return isAuth ===true ? <Outlet /> : <Navigate to="/login" />;
+    return isAuth === true ? <Outlet /> : <Navigate to="/login" />;
 }
