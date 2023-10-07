@@ -15,6 +15,11 @@ export const StyledButton = styled(({ ...props }) => <Button {...props} />)`
 		margin: ${(props) => props?.margin ?? "0 .25em 0 0"};
 	}
 
+	&&.ui.button:hover {
+		background: #ffffff !important;
+		color: #000000 !important;
+	}
+
 	&.ui.basic.button {
 		color: #4a515a !important;
 		box-shadow: 0 0 0 1px rgba(74, 81, 90) inset;
@@ -24,6 +29,7 @@ export const StyledButton = styled(({ ...props }) => <Button {...props} />)`
 	&.ui.labeled.icon.button > .icon {
 		background: transparent;
 	}
+
 `;
 
 export const StyledPrimaryBtn = styled(({ ...props }) => <Button {...props} />)`

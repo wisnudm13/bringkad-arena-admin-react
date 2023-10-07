@@ -47,6 +47,11 @@ const colorDictionary = (color) => {
 			buttonStyle.border = "none";
 			buttonStyle.background = "none";
 			break;
+        case "login":
+            buttonStyle.background = "transparent";
+			buttonStyle.color = "#ffffff";
+            buttonStyle.border = "2px solid #ffffff";
+            break;
 		default:
 			buttonStyle.color = "#0146a0";
 			buttonStyle.border = "1px solid #0146a0";

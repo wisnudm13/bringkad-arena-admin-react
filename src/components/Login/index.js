@@ -138,7 +138,7 @@ const LoginForm = ({ ...props }) => {
 	const [reveal, setReveal] = useState(false);
 	return (
 		<div>
-			<Header>Selamat Datang!</Header>
+			<Header>Bringkad Arena Admin</Header>
 			<DefaultFormInput
 				control={Input}
 				name="email"
@@ -171,17 +171,17 @@ const LoginForm = ({ ...props }) => {
 				<Column width={16}>
 					<Form.Field
 						control={FunctionButton}
-						content="Masuk"
+						content="Login"
 						disabled={
 							!props.formValidation.status || props.isLoading
 						}
 						onClick={props.onSubmit}
-						color="blue"
+						color="login"
 						fluid
 						margin="0"
 					/>
 				</Column>
-				<Form.Field
+				{/* <Form.Field
 					control={FunctionButton}
 					content="Lupa Password?"
 					onClick={props.onForgetPassword}
@@ -190,7 +190,7 @@ const LoginForm = ({ ...props }) => {
 					margin="0"
 					regular
 					style={{ padding: "2px", fontWeight: 500 }}
-				/>
+				/> */}
 			</Grid>
 		</div>
 	);
@@ -297,13 +297,13 @@ const Login = ({ ...props }) => {
 				onClick={props.onCloseSnackbar}
 			/>
 
-			<Column width={9} className="login__bg-image"></Column>
-			<Column width={7} className="login__bg-blue">
+			<Column width={16} className="login__bg-image"></Column>
+			{/* <Column width={8} className="login__bg-blue">
 				<Segment>
-					{/* <Image src={LogoAkslWhite} alt="" className="login__logo" /> */}
+					<Image src={LogoAkslWhite} alt="" className="login__logo" />
 					<Header>{props.adminTitle}</Header>
 				</Segment>
-			</Column>
+			</Column> */}
 
 			<Segment as={Form} size="large" className="login__form">
 				{loginHandler(props.page)}

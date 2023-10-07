@@ -336,7 +336,7 @@ const Login = (props) => {
 	return (
 		<div>
 			<LoginLayout
-				adminTitle="Bringkad Arena Admin"
+				// adminTitle="Bringkad Arena Admin"
 				isLoading={isLoading}
 				isShowSnackbar={isShowSnackbar}
 				formData={formData}

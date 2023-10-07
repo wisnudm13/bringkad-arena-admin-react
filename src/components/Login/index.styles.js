@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Header } from "semantic-ui-react";
 import styled from "styled-components";
 
-import BackgroundImage from "assets/images/login_image.png";
+import BackgroundImage from "assets/images/login_image_4.jpg";
 
 const { Column } = Grid;
 
@@ -42,34 +42,37 @@ export const LoginContainer = styled(Grid)`
 	}
 
 	& .login__form {
+        background: transparent;
 		position: absolute;
 		top: 25%;
-		left: 52.5%;
-		width: 38%;
+		left: 33%;
+		width: 35%;
 		min-height: 414px;
 		border: none;
 		border-radius: 10px;
-		box-shadow: 0 1px 20px 0 rgb(0 0 0 / 10%);
+		box-shadow: none;
 		padding: 50px 35px;
 		margin: 0;
 	}
 
 	& .login__form .header {
+        text-align: center;
 		font-family: Poppins-Bold;
-		font-size: 32px;
-		color: #4a515a;
+		font-size: 40px;
+		color: #ffffff;
 		margin-bottom: 40px;
 	}
 
 	& .login__form .field > label {
-		font-family: Poppins-Regular;
-		color: #4a4a4a;
-		opacity: 0.7;
+		font-family: Poppins-Bold;
+		color: #ffffff;
 	}
 
 	& .ui.large.form {
 		font-size: 14px;
+        border-radius: 30px;
 	}
+    
 `;
 
 const StyledLabel = styled.label`
