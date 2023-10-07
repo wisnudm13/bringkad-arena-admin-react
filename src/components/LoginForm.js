@@ -8,7 +8,7 @@ export function LoginForm() {
         padding: 30,
         height: "50vh",
         width: "30vw",
-        margin: "100px auto",
+        margin: "150px auto",
         borderRadius: "10px"
     }
 
@@ -17,21 +17,21 @@ export function LoginForm() {
         marginTop: "10px",
         fieldset: {
             borderColor: "green",
-            fontFamily: "Poppins"
+            fontFamily: "Poppins-Regular"
         },
         input: {
             color: "#007E3F",
-            fontFamily: "Poppins"
+            fontFamily: "Poppins-Regular"
             
         },
         "& label.Mui-focused": {
             color: "green",
-            fontFamily: "Poppins",
+            fontFamily: "Poppins-Regular",
           },
           "& .MuiOutlinedInput-root": {
             "&.Mui-focused fieldset": {
               borderColor: "green",
-              fontFamily: "Poppins",
+              fontFamily: "Poppins-Regular",
 
             }
           }
@@ -80,20 +80,20 @@ export function LoginForm() {
 
     return (
         <> 
-        <Grid sx={{ backgroundColor: "#007E3F"}} align="center">
+        <Grid align="center">
             <Paper elevation={5} style={paperStyle}>
                 <Grid align="center">
-                    <h1 style={{fontFamily: "Poppins"}}>Bringkad Arena Admin</h1>
+                    <h1 style={{fontFamily: "Poppins-Bold"}}>Bringkad Arena Admin</h1>
                     <Divider sx={{
                         "&::before, &::after": {
                         borderColor: "black",
                         },
                     }}>
-                        <Typography sx={{fontFamily: "Poppins", color: "black"}}>Login</Typography>
+                        <Typography sx={{fontFamily: "Poppins-Regular", color: "black"}}>Login</Typography>
                     </Divider>
                 </Grid>
                 {error?<Box sx={{ backgroundColor: "#F93D5C", borderRadius: 2, margin: "10px"}}>
-                    <Typography sx={{color: "white", fontFamily: "Poppins"}}>{errorMessage}</Typography>
+                    <Typography sx={{color: "white", fontFamily: "Poppins-Regular"}}>{errorMessage}</Typography>
                 </Box>:null}
                 <form onSubmit={handleLogin}>
                     <TextField
@@ -102,7 +102,7 @@ export function LoginForm() {
                         label="Username or Email"
                         InputLabelProps={{
                             style: {
-                                fontFamily: "Poppins"
+                                fontFamily: "Poppins-Regular"
                             }
                         }}
                         placeholder="Type here"
@@ -118,7 +118,7 @@ export function LoginForm() {
                         label="Password"
                         InputLabelProps={{
                             style: {
-                                fontFamily: "Poppins"
+                                fontFamily: "Poppins-Regular"
                             }
                         }}
                         placeholder="Type here"
@@ -146,10 +146,10 @@ export function LoginForm() {
                         fullWidth
                         type="submit"
                         >
-                            <Typography sx={{fontFamily: "Poppins"}}>Login</Typography>
+                            <Typography sx={{fontFamily: "Poppins-Bold"}}>Login</Typography>
                     </Button>
                 </form>
-                <Divider sx={{
+                {/* <Divider sx={{
                     "&::before, &::after": {
                     borderColor: "black",
                     },
@@ -173,7 +173,7 @@ export function LoginForm() {
                     variant="outlined"
                     fullWidth>
                         <Typography sx={{fontFamily: "Poppins"}}>Reset Password</Typography>
-                </Button>
+                </Button> */}
             </Paper>
         </Grid>
     </>

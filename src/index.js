@@ -1,17 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import { BrowserRouter } from 'react-router-dom';
-import { ProSidebarProvider } from 'react-pro-sidebar';
+import React, { Suspense } from "react";
+import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
+import { Loader } from "semantic-ui-react";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import configureStore from "./redux/store";
+import App from "./App";
+
+import "./index.css";
+import "semantic-ui-css/semantic.min.css";
+
+
+const root = createRoot(document.getElementById("root"));
+
 root.render(
-  <React.StrictMode>
-    <ProSidebarProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </ProSidebarProvider>
-  </React.StrictMode>
+  <Provider store={configureStore()}>
+    <Suspense fallback={<Loader active inline="centered" />}>
+			<App />
+		</Suspense>
+  </Provider>
 );

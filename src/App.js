@@ -1,38 +1,56 @@
-import './App.css';
-import { Route, Routes } from 'react-router-dom';
-import { Login } from './pages/Login';
-import { Home } from './pages/Home';
-import { UserRoutes } from './page_routes/UserRoutes';
-import { NotFound } from './pages/NotFound';
-import { ProtectedRoutes } from './components/ProtectedRoute';
-import { useState } from 'react';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-function App() {
-  const [backgroundColor, setBackgroundColor] = useState("#ffffff")
+import { PrivateRoute } from "./routes";
+import routesSchema from "./routes/schema";
 
-  return (
-    <>
-    <div style={{background: backgroundColor}}>
-      <Routes>
-        <Route path="/login" element={<Login/>}/>
+import Index from "./pages/Index";
+import Login from "./pages/Login";
+// import Page404 from "./pages/ErrorPage/Page404";
+// import Page500 from "./pages/ErrorPage/Page500";
 
-        {/* Protected routes */}
-        <Route element={<ProtectedRoutes/>}>
-          <Route path="/" element={<Home/>}></Route>
-          <Route path="/users/*" element={<UserRoutes/>}/>
-        </Route>
+const App = () => {
+	return (
+		<Router>
+			<Routes>
+				<Route exact path="/" element={<Index />} />
+				<Route exact path="/login" element={<Login />} />
 
+				{/* {routesSchema.map((item) => {
+					const { exact, path, Element, subMenu } = item;
 
-        
-        
-
-        {/* Not Found */}
-        <Route path="*" element={<NotFound/>}/>
-      </Routes>
-    </div>
-  </>
-  
-  )
-}
+					return subMenu.length === 0 ? (
+						<Route
+							exact={exact}
+							path={path}
+							element={
+								<PrivateRoute>
+									<Element />
+								</PrivateRoute>
+							}
+						/>
+					) : (
+						subMenu.map((item) => {
+							const { exact, path, Element } = item;
+							return (
+								<Route
+									exact={exact}
+									path={path}
+									element={
+										<PrivateRoute>
+											<Element />
+										</PrivateRoute>
+									}
+								/>
+							);
+						})
+					);
+				})}
+				<Route exact path="/500" element={<Page500 />} />
+				<Route exact path="/404" element={<Page404 />} /> */}
+			</Routes>
+		</Router>
+	);
+};
 
 export default App;

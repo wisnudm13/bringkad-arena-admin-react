@@ -7,14 +7,25 @@ export function ProtectedRoutes () {
     const [isAuth, setIsAuth] = useState();
   
     useEffect(() => {
-        BringkadArenaAPI.validateTokenAdmin()
-        .then(function (res) {
-            setIsAuth(true);
+        async function validateToken() {
+            const loginResponse = await BringkadArenaAPI.validateTokenAdmin()
+            console.log(loginResponse)
 
-        }).catch(function (err) {
-            setIsAuth(false)
-        })
+            if (loginResponse.status !== 200) {
+                setIsAuth(false);
+                localStorage.clear();
+
+            } else {
+                setIsAuth(true)
+            }
+        }
+
+        validateToken()
+        
+
     });
+
+    console.log(isAuth)
     
     if (isAuth === undefined) return null; // or loading indicator, etc...
   

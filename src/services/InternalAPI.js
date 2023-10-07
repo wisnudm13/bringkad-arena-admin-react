@@ -58,6 +58,14 @@ class BringkadArenaAPI {
 
     }
 
+    static getAdminDataList() {
+
+    }
+
+    static getUserDataList() {
+        
+    }
+
 }
 
 export default BringkadArenaAPI;
