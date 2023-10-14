@@ -141,18 +141,18 @@ const LoginForm = ({ ...props }) => {
 			<Header>Bringkad Arena Admin</Header>
 			<DefaultFormInput
 				control={Input}
-				name="email"
+				name="email_or_username"
 				type="email"
-				label="Email"
-				value={props.formData.email}
+				label="Email or Username"
+				value={props.formData.email_or_username}
 				disabled={props.isLoading}
 				onChange={props.onChange}
 				onBlur={props.onBlur}
 				error={
-					props.formData.email !== "" &&
-					!props.formValidation.fields.email.status
+					props.formData.email_or_username !== "" &&
+					!props.formValidation.fields.email_or_username.status
 				}
-				errorMsg={props.formValidation.fields.email.message}
+				errorMsg={props.formValidation.fields.email_or_username.message}
 			/>
 			<DefaultFormInput
 				control={Input}

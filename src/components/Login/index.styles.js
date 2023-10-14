@@ -14,7 +14,7 @@ export const LoginContainer = styled(Grid)`
 	& .login__bg-image {
 		background-image: url(${BackgroundImage});
 		background-repeat: no-repeat;
-		background-size: cover;
+		background-size: 100% 100%;
 	}
 
 	& .login__bg-blue {

@@ -1,0 +1,42 @@
+import { executeHttp } from "./api";
+
+/**
+ * Attach REST operations from restFunctions as required by an Akseleran API
+ * resource
+ * @param  {Object}	destObject	An Akseleran resource e.g. Investment
+ * @param  {Array}	operations	Rest operations that the destObject will allow e.g. get
+ * @return {Object}
+ */
+
+export function mixin(destObject, operations) {
+	operations.forEach(function (property) {
+		destObject[property] = restFunctions[property];
+	});
+	return destObject;
+}
+
+/**
+ * restFunctions Object containing the REST CRUD methods and Akseleran specific
+ * REST methods that are shared between at least two of the REST endpoints,
+ * otherwise the function will be defined within the resource definition itself
+ * @type {Object}
+ */
+
+const restFunctions = {
+	create: function create(data, config) {
+		executeHttp("POST", this.baseURL, data, config);
+	},
+	get: function get(id, config) {
+		executeHttp("GET", this.baseURL + id, {}, config);
+	},
+	list: function list(data, config) {
+		if (typeof data === "function") {
+			config = data;
+			data = {};
+		}
+		executeHttp("GET", this.baseURL, data, config);
+	},
+	del: function del(id, config) {
+		executeHttp("DELETE", this.baseURL + id, {}, config);
+	},
+};
