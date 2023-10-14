@@ -5,13 +5,7 @@ import { bindActionCreators } from "redux";
 import * as action from "redux/action";
 
 import LoginLayout from "components/Login";
-// import {
-// 	containsNumber,
-// 	containsSpecialCharacter,
-// 	containsUppercase,
-// } from "utilities/helper";
 import localStorage from "utilities/localStorage";
-// import qs from "query-string";
 
 const defaultFormData = {
 	email_or_username: "",
@@ -55,15 +49,14 @@ const Login = (props) => {
 	// }, []);
 
 	useEffect(() => {
-		console.log("____________________")
-		console.log(userLogIn.type)
+
 		if (userLogIn?.type) {
 			const { type, data } = userLogIn;
-			console.log("===========")
-			console.log(type)
-			console.log(data)
+
 			if (type === 200) {
-				localStorage().save("userToken", data.authorizationToken);
+				localStorage().save("userToken", data.authToken);
+				localStorage().save("adminId", data.adminId);
+				localStorage().save("adminUsername", data.adminUsername)
 				window.location.href = "/dashboard";
 			} else if (type === 400) {
 				console.log("dawaqeesz")

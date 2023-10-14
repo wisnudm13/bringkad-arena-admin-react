@@ -16,7 +16,7 @@ const App = () => {
 				<Route exact path="/" element={<Index />} />
 				<Route exact path="/login" element={<Login />} />
 
-				{/* {routesSchema.map((item) => {
+				{routesSchema.map((item) => {
 					const { exact, path, Element, subMenu } = item;
 
 					return subMenu.length === 0 ? (
@@ -46,7 +46,7 @@ const App = () => {
 						})
 					);
 				})}
-				<Route exact path="/500" element={<Page500 />} />
+				{/* <Route exact path="/500" element={<Page500 />} />
 				<Route exact path="/404" element={<Page404 />} /> */}
 			</Routes>
 		</Router>

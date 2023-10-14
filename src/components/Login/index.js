@@ -152,7 +152,7 @@ const LoginForm = ({ ...props }) => {
 					props.formData.email_or_username !== "" &&
 					!props.formValidation.fields.email_or_username.status
 				}
-				errorMsg={props.formValidation.fields.email_or_username.message}
+				// errorMsg={props.formValidation.fields.email_or_username.message}
 			/>
 			<DefaultFormInput
 				control={Input}
