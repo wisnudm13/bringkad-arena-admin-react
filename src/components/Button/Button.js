@@ -155,14 +155,14 @@ ButtonWithIcon.propTypes = {
 	icon: PropTypes.string.isRequired,
 };
 
-const AnimatedButton = ({ content, icon, ...props }) => {
+const AnimatedButton = ({ content, icon, color, ...props }) => {
 	return (
-		<StyledPrimaryBtn {...props}>
+		<StyledButton buttonstyle={colorDictionary(color)} {...props}>
 			<Button.Content hidden>{content}</Button.Content>
 			<Button.Content visible>
 				<Icon name={icon} />
 			</Button.Content>
-		</StyledPrimaryBtn>
+		</StyledButton>
 	);
 };
 

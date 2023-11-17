@@ -26,20 +26,12 @@ const restFunctions = {
 	},
 };
 
-export function Admins() {
-	const baseURL = "/v1/admins";
+export function Users() {
+	const baseURL = "/v1/users";
     const operations = ["get", "capture"];
 
 	let ret = {
-		loginAdmin: (data, config) => {
-            return executeRequest(
-                "POST",
-                baseURL + "/login",
-                data,
-                config
-            )
-        },
-		adminList: (data, config) => {
+		userList: (data, config) => {
 			return executeRequest(
 				"GET",
                 baseURL + "/list",

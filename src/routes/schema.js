@@ -146,18 +146,18 @@ export default [
 		},
 		subMenu: [],
 	},
-	{
-		exact: true,
-		path: "/facility-item",
-		Element: FacilityItem,
-		id: "facilityItem",
-		name: "Facility Item",
-		breadcrumb: [],
-		subMenu: [],
-		sidebarMenu: {
-			icon: "ordered list"
-		},
-	},
+	// {
+	// 	exact: true,
+	// 	path: "/facility-item",
+	// 	Element: FacilityItem,
+	// 	id: "facilityItem",
+	// 	name: "Facility Item",
+	// 	breadcrumb: [],
+	// 	subMenu: [],
+	// 	sidebarMenu: {
+	// 		icon: "ordered list"
+	// 	},
+	// },
     {
 		exact: true,
 		path: "/order",

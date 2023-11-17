@@ -17,6 +17,9 @@ export const fetch = (params) => {
 		const contentType = params.formData
 			? "multipart/form-data"
 			: "application/json";
+
+		console.log("==============")
+		console.log(contentType)
 		if (params.isPartner) {
 			authToken = {
 				headers: {
@@ -29,11 +32,14 @@ export const fetch = (params) => {
 		} else {
 			authToken = {
 				headers: {
-					Authorization: `Bearer ${localStorage().get("userToken")}`,
+					Authorization: `Bearer ${JSON.parse(localStorage().get("userToken"))}`,
 					"Content-Type": contentType,
 				},
 			};
 		}
+
+		console.log("tokennnnn")
+		console.log(authToken)
 
 		let executeHttp;
 		if (uploader) {
