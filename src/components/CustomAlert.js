@@ -31,14 +31,14 @@ const StyledMessage = styled(Message)`
 	}
 
 	&.ui.warning.message {
-		background-color: #e42354;
+		background-color: #d6092d;
 		font-family: Poppins-Regular;
 		font-size: 18px;
 		color: #ffffff;
 	}
 
 	&.ui.negative.message {
-		background-color: #e42354;
+		background-color: #d6092d;
 		font-family: Poppins-Regular;
 		font-size: 18px;
 		color: #ffffff;

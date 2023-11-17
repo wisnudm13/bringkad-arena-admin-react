@@ -73,7 +73,7 @@ const Dashboard = (props) => {
 	return (
 		<Layout>
 			<Grid padded>
-				<Row stretched>
+				{/* <Row stretched>
 					<Column width="4">
 						<CardDashboard>
 							<Grid>
@@ -85,7 +85,7 @@ const Dashboard = (props) => {
 											marginBottom="0"
 										/>
 									</Column>
-								</Row>
+								</Row> */}
 								{/* <Row>
 									<Column>
 										{isDashboardLoading ? (
@@ -147,13 +147,13 @@ const Dashboard = (props) => {
 										)}
 									</Column>
 								</Row> */}
-							</Grid>
+							{/* </Grid>
 						</CardDashboard>
-					</Column>
-					<Column width={12}>
+					</Column> */}
+					{/* <Column width={12}>
 						<CardDashboard>
-							<Grid>
-								<Row>
+							<Grid> */}
+								{/* <Row>
 									<Column>
 										<DefaultHeader
 											content="Pinjaman"
@@ -161,7 +161,7 @@ const Dashboard = (props) => {
 											marginBottom="0"
 										/>
 									</Column>
-								</Row>
+								</Row> */}
 								{/* <Row columns="equal">
 									<Column>
 										{isDashboardLoading ? (
@@ -313,14 +313,14 @@ const Dashboard = (props) => {
 										)}
 									</Column> */}
 								{/* </Row> */}
-							</Grid>
+							{/* </Grid>
 						</CardDashboard>
 					</Column>
-				</Row>
+				</Row> */}
 
-				<Divider style={{ background: "#c8dfff" }} />
+				{/* <Divider style={{ background: "#c8dfff" }} /> */}
 
-				<Row stretched>
+				{/* <Row stretched>
 					<Column width={9}>
 						<CardDashboard>
 							<Grid>
@@ -332,7 +332,7 @@ const Dashboard = (props) => {
 											marginBottom="0"
 										/>
 									</Column>
-								</Row>
+								</Row> */}
 								{/* <Row columns="3">
 									<Column>
 										{isDashboardLoading ? (
@@ -459,9 +459,9 @@ const Dashboard = (props) => {
 										)}
 									</Column>
 								</Row> */}
-							</Grid>
+							{/* </Grid>
 						</CardDashboard>
-					</Column>
+					</Column> */}
 					{/* <Column width={7}>
 						<CardDashboard>
 							<Grid>
@@ -554,7 +554,7 @@ const Dashboard = (props) => {
 							</Grid>
 						</CardDashboard>
 					</Column> */}
-				</Row>
+				{/* </Row> */}
 			</Grid>
 		</Layout>
 	);

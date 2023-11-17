@@ -5,6 +5,7 @@ const User = lazy(() => import("../pages/User"));
 const Admin = lazy(() => import("../pages/Admin"));
 const Facility = lazy(() => import("../pages/Facility"));
 const Order = lazy(() => import("../pages/Order"))
+const FacilityItem = lazy(() => import("../pages/FacilityItem"))
 
 
 // const ListBorrower = lazy(() => import("../pages/ListBorrower"));
@@ -115,7 +116,7 @@ export default [
 		// permission: "VIEW_DASHBOARD",
 		breadcrumb: [],
 		sidebarMenu: {
-			icon: "user",
+			icon: "users",
 		},
 		subMenu: [],
 	},
@@ -141,14 +142,26 @@ export default [
 		// permission: "VIEW_DASHBOARD",
 		breadcrumb: [],
 		sidebarMenu: {
-			icon: "ordered list",
+			icon: "building",
 		},
 		subMenu: [],
+	},
+	{
+		exact: true,
+		path: "/facility-item",
+		Element: FacilityItem,
+		id: "facilityItem",
+		name: "Facility Item",
+		breadcrumb: [],
+		subMenu: [],
+		sidebarMenu: {
+			icon: "ordered list"
+		},
 	},
     {
 		exact: true,
 		path: "/order",
-		Element: Facility,
+		Element: Order,
 		id: "order",
 		name: "Order",
 		// permission: "VIEW_DASHBOARD",

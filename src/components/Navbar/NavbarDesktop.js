@@ -144,8 +144,8 @@ class NavbarDesktop extends Component {
 
 	handleLogOut = () => {
 		localStorage().remove("userToken");
-		localStorage().remove("userRole");
-		localStorage().remove("userPermission");
+		localStorage().remove("adminUsername");
+		localStorage().remove("adminId");
 		window.location.href = "/";
 	};
 
@@ -170,6 +170,7 @@ class NavbarDesktop extends Component {
 					<Column width={16}>
 						<DesktopSidebar vertical>
 							<StyledMenuItem>
+								Bringkad Arena Admin
 								{/* <Image src={LogoAkslWhite} alt="" /> */}
 							</StyledMenuItem>
 							{schema.map((item, index) => {
@@ -186,27 +187,6 @@ class NavbarDesktop extends Component {
 								return Object.keys(sidebarMenu).length ===
 									0 ? null : subMenu.length === 0 ? (
 									<span>
-										{id === "listBorrower" && (
-											<Menu.Item>
-												<h3>
-													<strong>LOS</strong>
-												</h3>
-											</Menu.Item>
-										)}
-										{id === "list-partner" && (
-											<Menu.Item>
-												<h3>
-													<strong>PARTNER</strong>
-												</h3>
-											</Menu.Item>
-										)}
-										{id === "accessMapping" && (
-											<Menu.Item>
-												<h3>
-													<strong>SETTING</strong>
-												</h3>
-											</Menu.Item>
-										)}
 										<Menu.Item
 											as={Link}
 											to={
@@ -279,7 +259,7 @@ class NavbarDesktop extends Component {
 
 							<Menu secondary size="large" className="navbar">
 								<Container fluid>
-									<Menu.Menu>
+									{/* <Menu.Menu>
 										<Menu.Item>
 											<Icon
 												name="arrow left"
@@ -297,9 +277,9 @@ class NavbarDesktop extends Component {
 												{pageRouteDescription}
 											</span>
 										</Menu.Item>
-									</Menu.Menu>
+									</Menu.Menu> */}
 									<Menu.Menu position="right">
-										<Menu.Item
+										{/* <Menu.Item
 											as={Link}
 											to="/notifications"
 											name="notifications"
@@ -312,7 +292,7 @@ class NavbarDesktop extends Component {
 													size="large"
 												/>
 											)}
-										</Menu.Item>
+										</Menu.Item> */}
 										<Menu.Item onClick={this.handleLogOut}>
 											<Icon name="log out" size="large" />
 										</Menu.Item>

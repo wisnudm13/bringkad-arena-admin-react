@@ -6,20 +6,14 @@ export const DesktopSidebar = styled(Menu)`
 		position: fixed;
 		width: 260px;
 		height: 100vh;
-		background: linear-gradient(
-			to bottom,
-			#2a6dc4 1%,
-			#054eac 47%,
-			#01459f
-		);
+		background: #117dab;
 		border: none;
-		border-radius: 0 0 30px;
 		z-index: 1;
 		overflow: auto;
 	}
 
 	&.ui.vertical.menu .item {
-		font-family: Poppins-Regular;
+		font-family: Poppins-SemiBold;
 		color: #ffffff;
 		line-height: 22px;
 		letter-spacing: -0.28px;
