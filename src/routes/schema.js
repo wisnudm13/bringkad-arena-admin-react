@@ -2,8 +2,11 @@ import { lazy } from "react";
 
 const Dashboard = lazy(() => import("../pages/Dashboard"));
 const UserList = lazy(() => import("../pages/UserList"));
+const UserDetail = lazy(() => import("../pages/UserDetail"));
 const Admin = lazy(() => import("../pages/Admin"));
+const AdminDetail = lazy(() => import("../pages/AdminDetail"));
 const Facility = lazy(() => import("../pages/Facility"));
+const FacilityDetail = lazy(() => import("../pages/FacilityDetail"));
 const Order = lazy(() => import("../pages/Order"))
 const FacilityItem = lazy(() => import("../pages/FacilityItem"))
 
@@ -120,16 +123,16 @@ export default [
 		},
 		subMenu: [],
 	},
-	// {
-	// 	exact: true,
-	// 	path: "/user/:id",
-	// 	Element: ListBorrowerDetail,
-	// 	id: "userDetail",
-	// 	name: "Detail Borrower",
-	// 	breadcrumb: [],
-	// 	sidebarMenu: {},
-	// 	subMenu: [],
-	// },
+	{
+		exact: true,
+		path: "/user/:id",
+		Element: UserDetail,
+		id: "userDetail",
+		name: "Detail",
+		breadcrumb: [],
+		sidebarMenu: {},
+		subMenu: [],
+	},
     {
 		exact: true,
 		path: "/admin",
@@ -143,6 +146,16 @@ export default [
 		},
 		subMenu: [],
 	},
+	{
+		exact: true,
+		path: "/admin/:id",
+		Element: AdminDetail,
+		id: "adminDetail",
+		name: "Detail",
+		breadcrumb: [],
+		sidebarMenu: {},
+		subMenu: [],
+	},
     {
 		exact: true,
 		path: "/facility",
@@ -154,6 +167,16 @@ export default [
 		sidebarMenu: {
 			icon: "building",
 		},
+		subMenu: [],
+	},
+	{
+		exact: true,
+		path: "/facility/:id",
+		Element: FacilityDetail,
+		id: "facilityDetail",
+		name: "Detail",
+		breadcrumb: [],
+		sidebarMenu: {},
 		subMenu: [],
 	},
 	// {

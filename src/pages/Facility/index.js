@@ -85,7 +85,7 @@ class ListFacility extends Component {
 						// item.borrowerStatus = item.status && item.status.value;
 
 						item.view = (
-							<Link to={`/borrower/${item.id}`}>
+							<Link to={`/facility/${item.id}`}>
 								<AnimatedButton
 									content="Edit"
 									color="blue"
