@@ -1,7 +1,7 @@
 import { lazy } from "react";
 
 const Dashboard = lazy(() => import("../pages/Dashboard"));
-const User = lazy(() => import("../pages/User"));
+const UserList = lazy(() => import("../pages/UserList"));
 const Admin = lazy(() => import("../pages/Admin"));
 const Facility = lazy(() => import("../pages/Facility"));
 const Order = lazy(() => import("../pages/Order"))
@@ -110,8 +110,8 @@ export default [
     {
 		exact: true,
 		path: "/user",
-		Element: User,
-		id: "user",
+		Element: UserList,
+		id: "userList",
 		name: "User",
 		// permission: "VIEW_DASHBOARD",
 		breadcrumb: [],
@@ -120,6 +120,16 @@ export default [
 		},
 		subMenu: [],
 	},
+	// {
+	// 	exact: true,
+	// 	path: "/user/:id",
+	// 	Element: ListBorrowerDetail,
+	// 	id: "userDetail",
+	// 	name: "Detail Borrower",
+	// 	breadcrumb: [],
+	// 	sidebarMenu: {},
+	// 	subMenu: [],
+	// },
     {
 		exact: true,
 		path: "/admin",
