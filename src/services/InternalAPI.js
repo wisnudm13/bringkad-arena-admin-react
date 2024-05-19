@@ -53,8 +53,8 @@ class BringkadArenaAPI {
     }
 
     static validateTokenAdmin() {
-        const authToken = localStorage.getItem("authToken")
-        return this.sendRequest("/v1/tokens/admins/validate", {}, null, authToken)
+        const authToken = localStorage.getItem("userToken")
+        return this.sendRequest("/v1/tokens/admins/validate", {}, null, JSON.parse(authToken))
 
     }
 

@@ -2,7 +2,7 @@
   "name": "bringkad-arena-admin-react",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://api-dev.bringkadarena.com",
+  "proxy": "https://api.tivinity.com",
   "homepage": "https://admin.bringkadarena.com/",
   "dependencies": {
     "@emotion/react": "^11.10.6",

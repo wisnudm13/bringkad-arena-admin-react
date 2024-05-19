@@ -1,7 +1,8 @@
-import { adminsAPI, usersAPI, facilityAPI } from "api";
+import { adminsAPI, usersAPI, facilityAPI, tokensAPI } from "api";
 
 export default {
     adminsAPI,
     usersAPI,
-    facilityAPI
+    facilityAPI,
+    tokensAPI,
 }

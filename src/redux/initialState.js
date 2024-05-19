@@ -3,12 +3,15 @@ export default {
 		userLogIn: {},
 		adminRoleGet: {},
 		adminPasswordChange: {},
-		adminList: {}
+		adminList: {},
 	},
 	Users: {
 		userList: {}
 	},
 	Facilities: {
 		facilityList: {}
+	},
+	Tokens: {
+		validateAdminToken: {}
 	}
 };

@@ -18,8 +18,6 @@ export const fetch = (params) => {
 			? "multipart/form-data"
 			: "application/json";
 
-		console.log("==============")
-		console.log(contentType)
 		if (params.isPartner) {
 			authToken = {
 				headers: {
@@ -37,9 +35,6 @@ export const fetch = (params) => {
 				},
 			};
 		}
-
-		console.log("tokennnnn")
-		console.log(authToken)
 
 		let executeHttp;
 		if (uploader) {

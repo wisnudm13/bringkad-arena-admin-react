@@ -85,9 +85,9 @@ class ListUser extends Component {
 						item.view = (
 							<Link to={`/borrower/${item.id}`}>
 								<AnimatedButton
-									content="View"
+									content="Edit"
 									color="blue"
-									icon="folder open"
+									icon="edit"
 								/>
 
 							</Link>

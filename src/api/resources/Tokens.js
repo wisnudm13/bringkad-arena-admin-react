@@ -26,27 +26,19 @@ const restFunctions = {
 	},
 };
 
-export function Admins() {
-	const baseURL = "/v1/admins";
+export function Tokens() {
+	const baseURL = "/v1/tokens";
     const operations = ["get", "capture"];
 
 	let ret = {
-		loginAdmin: (data, config) => {
+		validateTokenAdmin: (data, config) => {
             return executeRequest(
                 "POST",
-                baseURL + "/login",
+                baseURL + "/admin/validate",
                 data,
                 config
             )
         },
-		adminList: (data, config) => {
-			return executeRequest(
-				"GET",
-                baseURL + "/list",
-                data,
-                config
-			)
-		},
     }
 
 	ret = mixin(ret, operations);
