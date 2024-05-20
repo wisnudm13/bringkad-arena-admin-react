@@ -132,14 +132,14 @@ const UserDetail = ({ action, ...props }) => {
 				onClick={clearAlertMessage}
 			/> */}
 			<Layout location={location} isListLoading={false}>
-				<h3> {isEditing ? "Edit Data" : "Add Data"}</h3>
+				<h3> {isEditing ? "Edit User" : "Add User"}</h3>
 				<Dimmer.Dimmable as={Segment} dimmed={isSubmitting}>
 					<Dimmer
 						active={isSubmitting}
 						verticalAlign="bottom"
 						inverted
 					>
-						<Loader>Saving Borrower Data...</Loader>
+						<Loader>Saving User Data...</Loader>
 					</Dimmer>
 					<DefaultForm
 						style={{ padding: "0 20px" }}

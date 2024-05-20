@@ -72,9 +72,7 @@ class ListFacility extends Component {
 		if (isListLoading && facilityList) {
 			if (prevProps.facilityList !== facilityList) {
 				const { data, type } = facilityList;
-				console.log("did update")
-				console.log(data)
-				console.log(type)
+
 				if (type === 200) {
 					let totalPage = Math.ceil(data.totalData / data.perPage);
 
@@ -85,16 +83,14 @@ class ListFacility extends Component {
 						// item.borrowerStatus = item.status && item.status.value;
 
 						item.view = (
-							<Link to={`/facility/${item.id}`}>
+							<Link to={`/facility/${item.id}`} state={{ isEditing: true}}>
 								<AnimatedButton
 									content="Edit"
 									color="blue"
 									icon="edit"
 								/>
-
 							</Link>
-
-						);
+							);
 
 						item.delete = (
 							<AnimatedButton

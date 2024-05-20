@@ -70,9 +70,7 @@ class ListUser extends Component {
 		if (isListLoading && userList) {
 			if (prevProps.userList !== userList) {
 				const { data, type } = userList;
-				console.log("did update")
-				console.log(data)
-				console.log(type)
+
 				if (type === 200) {
 					let totalPage = Math.ceil(data.totalData / data.perPage);
 
@@ -83,13 +81,12 @@ class ListUser extends Component {
 						// item.borrowerStatus = item.status && item.status.value;
 
 						item.view = (
-							<Link to={`/user/${item.id}`}>
+							<Link to={`/user/${item.id}`} state={{ isEditing: true}}>
 								<AnimatedButton
 									content="Edit"
 									color="blue"
 									icon="edit"
 								/>
-
 							</Link>
 
 						);

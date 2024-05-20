@@ -41,7 +41,6 @@ const AdminDetail = ({ action, ...props }) => {
 
 	useEffect(() => {
 		handleGetAdminData();
-        // getInitialValue()
 	}, []);
 
 	useEffect(() => {
@@ -82,23 +81,6 @@ const AdminDetail = ({ action, ...props }) => {
 		});
 	};
 
-    // const getInitialValue = () => {
-    //     // const data = adminData;
-    //     console.log("data " + data)
-	// 	if (!data) return;
-	// 	const values = {
-	// 		id: data.id,
-    //         username: data.username,
-    //         email: data.email,
-    //         isActive: data.is_active,
-			
-	// 	};
-
-	// 	const finalData = { ...data, ...values };
-
-	// 	setInitialValues(finalData);
-    // }
-
     const formik = useFormik({
 		initialValues: initialValues,
 		// validationSchema: validationSchema,
@@ -107,7 +89,7 @@ const AdminDetail = ({ action, ...props }) => {
 		onSubmit: (values) => {
 			setIsSubmitting(true);
 
-			const isEditing = location.state;
+			const { isEditing } = location.state;
 			// if (isEditing)
 			// 	updateLiteBorrower(values, onSuccessfulSubmit, onFailedSubmit);
 			// else createLiteBorrower(values, onSuccessfulSubmit, onFailedSubmit);
@@ -135,14 +117,14 @@ const AdminDetail = ({ action, ...props }) => {
 				onClick={clearAlertMessage}
 			/> */}
 			<Layout location={location} isListLoading={false}>
-				<h3> {isEditing ? "Edit Data" : "Add Data"}</h3>
+				<h3> {isEditing ? "Edit Admin" : "Add Admin"}</h3>
 				<Dimmer.Dimmable as={Segment} dimmed={isSubmitting}>
 					<Dimmer
 						active={isSubmitting}
 						verticalAlign="bottom"
 						inverted
 					>
-						<Loader>Saving Borrower Data...</Loader>
+						<Loader>Saving Admin Data...</Loader>
 					</Dimmer>
 					<DefaultForm
 						style={{ padding: "0 20px" }}

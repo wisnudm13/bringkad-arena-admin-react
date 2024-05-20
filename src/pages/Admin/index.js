@@ -83,13 +83,12 @@ class ListAdmin extends Component {
 						// item.borrowerStatus = item.status && item.status.value;
 
 						item.view = (
-							<Link to={`/admin/${item.id}`}>
+							<Link to={`/admin/${item.id}`} state={{ isEditing: true}}>
 								<AnimatedButton
 									content="Edit"
 									color="blue"
 									icon="edit"
 								/>
-
 							</Link>
 
 						);
