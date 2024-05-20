@@ -38,6 +38,14 @@ export function Users() {
                 data,
                 config
 			)
+		},
+		getUserData: (data, config) => {
+			return executeRequest(
+				"GET",
+                baseURL + "/admin/" + data.id,
+                "",
+                config
+			)
 		}
     }
 

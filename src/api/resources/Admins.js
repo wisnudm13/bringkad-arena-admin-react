@@ -47,6 +47,14 @@ export function Admins() {
                 config
 			)
 		},
+		getAdminData: (data, config) => {
+			return executeRequest(
+				"GET",
+                baseURL + "/" + data.id,
+                "",
+                config
+			)
+		}
     }
 
 	ret = mixin(ret, operations);

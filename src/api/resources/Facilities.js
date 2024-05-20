@@ -38,7 +38,16 @@ export function Facilities() {
                 data,
                 config
 			)
+		},
+		getFacilityData: (data, config) => {
+			return executeRequest(
+				"GET",
+                baseURL + "/" +data.id,
+                "",
+                config
+			)
 		}
+
     }
 
 	ret = mixin(ret, operations);

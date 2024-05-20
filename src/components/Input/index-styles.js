@@ -1,7 +1,7 @@
 import React from "react";
 import { Form } from "semantic-ui-react";
 import styled from "styled-components";
-import { DatesRangeInput, DateInput } from "semantic-ui-calendar-react";
+// import { DatesRangeInput, DateInput } from "semantic-ui-calendar-react";
 
 export const StyledField = styled(({ fontSize, ...props }) => (
 	<Form.Field {...props} />
@@ -97,35 +97,35 @@ export const StyledSearchFilterInput = styled(({ ...props }) => (
 	}
 `;
 
-export const StyledRangeDate = styled(DatesRangeInput)`
-	&& {
-		position: relative;
-		.ui.input > input {
-			border: 0;
-			border-radius: 8px;
-			box-shadow: 0 2px 8px 0 rgba(74, 81, 90, 0.1);
-			color: #4a4a4a;
-		}
-		i.icon {
-			color: #3a9fd7;
-		}
-	}
-`;
+// export const StyledRangeDate = styled(DatesRangeInput)`
+// 	&& {
+// 		position: relative;
+// 		.ui.input > input {
+// 			border: 0;
+// 			border-radius: 8px;
+// 			box-shadow: 0 2px 8px 0 rgba(74, 81, 90, 0.1);
+// 			color: #4a4a4a;
+// 		}
+// 		i.icon {
+// 			color: #3a9fd7;
+// 		}
+// 	}
+// `;
 
-export const StyledDate = styled(DateInput)`
-	&& {
-		position: relative;
-		.ui.input > input {
-			border: 0;
-			border-radius: 8px;
-			box-shadow: 0 2px 8px 0 rgba(74, 81, 90, 0.1);
-			color: #4a4a4a;
-		}
-		i.icon {
-			color: #3a9fd7;
-		}
-	}
-`;
+// export const StyledDate = styled(DateInput)`
+// 	&& {
+// 		position: relative;
+// 		.ui.input > input {
+// 			border: 0;
+// 			border-radius: 8px;
+// 			box-shadow: 0 2px 8px 0 rgba(74, 81, 90, 0.1);
+// 			color: #4a4a4a;
+// 		}
+// 		i.icon {
+// 			color: #3a9fd7;
+// 		}
+// 	}
+// `;
 
 export const InputErrorMessage = styled.p`
 	&& {

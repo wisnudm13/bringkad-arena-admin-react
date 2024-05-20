@@ -7,10 +7,7 @@ export const fetch = (params) => {
 	return (dispatch) => {
 		const { sdk, method, uploader, id, data, key } = params;
 		const { parent, child } = sdk;
-        console.log(apiSdk)
-        console.log(parent)
 		const sdkParent = apiSdk[parent];
-        console.log(sdkParent)
 		const sdkChild = sdkParent[child];
 		let authToken = false;
 

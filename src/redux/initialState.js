@@ -4,14 +4,17 @@ export default {
 		adminRoleGet: {},
 		adminPasswordChange: {},
 		adminList: {},
+		adminData: {},
 	},
 	Users: {
-		userList: {}
+		userList: {},
+		userData: {},
 	},
 	Facilities: {
-		facilityList: {}
+		facilityList: {},
+		facilityData: {},
 	},
 	Tokens: {
-		validateAdminToken: {}
+		validateAdminToken: {},
 	}
 };
