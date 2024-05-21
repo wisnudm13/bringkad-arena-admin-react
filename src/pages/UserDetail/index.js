@@ -20,11 +20,12 @@ import { FunctionButton } from "components/Button";
 import { DefaultForm } from "components/Form";
 import { DefaultFormInput } from "components/Form";
 import { FormInput } from "components/Input";
+import BringkadArenaAPI from "services/InternalAPI";
+import CustomAlert from "components/CustomAlert";
+
 
 
 const { Row, Column } = Grid;
-
-
 
 const UserDetail = ({ action, ...props }) => {
 	const [isListLoading, setIsListLoading] = useState(true);
@@ -34,14 +35,14 @@ const UserDetail = ({ action, ...props }) => {
 	const [userType, setUserType] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [initialValues, setInitialValues] = useState({});
-
+	const [alertMessage, setAlertMessage] = useState({});
+	const [isShowAlert, setIsShowAlert] = useState(false);
 
     let location = useLocation();
 	let navigate = useNavigate();
 
 	useEffect(() => {
 		handleGetUserData();
-        // getInitialValue()
 	}, []);
 
 	useEffect(() => {
@@ -79,23 +80,6 @@ const UserDetail = ({ action, ...props }) => {
 		});
 	};
 
-    // const getInitialValue = () => {
-    //     // const data = userData;
-    //     console.log("data " + data)
-	// 	if (!data) return;
-	// 	const values = {
-	// 		id: data.id,
-    //         username: data.username,
-    //         email: data.email,
-    //         isActive: data.is_active,
-			
-	// 	};
-
-	// 	const finalData = { ...data, ...values };
-
-	// 	setInitialValues(finalData);
-    // }
-
     const formik = useFormik({
 		initialValues: initialValues,
 		// validationSchema: validationSchema,
@@ -105,11 +89,45 @@ const UserDetail = ({ action, ...props }) => {
 			setIsSubmitting(true);
 
 			const isEditing = location.state;
-			// if (isEditing)
-			// 	updateLiteBorrower(values, onSuccessfulSubmit, onFailedSubmit);
+			if (isEditing)
+				updateUserDetail(values);
 			// else createLiteBorrower(values, onSuccessfulSubmit, onFailedSubmit);
 		},
 	});
+
+	const updateUserDetail = async (values, onSuccess, onFailure) => {
+		const userID = values.id
+		const updateUserResponse = await BringkadArenaAPI.updateUserData({
+            name: values.name,
+            phone_number: values.phoneNumber
+        }, values.id)
+
+		console.log(updateUserResponse)
+
+        if (updateUserResponse.status !== 200) {
+            setIsSubmitting(false);
+			setIsShowAlert(true)
+			// const errorMessage = updateUserResponse.errors;
+			setAlertMessage({
+				type: "errorMessage",
+				message: "Error updating user data",
+			});
+
+        } else {
+            setIsSubmitting(false);
+			setIsShowAlert(true)
+			setAlertMessage({
+				type: "successMessage",
+				message: "Successfully updated user data",
+			});
+			// setTimeout(() => {
+			// 	formik.resetForm();
+			// 	navigate(`/user/${userID}`, { state: {isEditing: true}});
+			// }, 600000);
+        }
+	}
+
+	const clearAlertMessage = () => setAlertMessage({});
 
 	// const handleToggleNotification = (notification) => {
 	// 	setNotification(notification);
@@ -123,14 +141,14 @@ const UserDetail = ({ action, ...props }) => {
 
 	return (
 		<>
-			{/* <CustomAlert
+			<CustomAlert
 				type={alertMessage.type}
-				visible={alertMessage.type}
+				visible={isShowAlert}
 				animation="slide down"
 				duration={1000}
 				message={alertMessage.message}
 				onClick={clearAlertMessage}
-			/> */}
+			/>
 			<Layout location={location} isListLoading={false}>
 				<h3> {isEditing ? "Edit User" : "Add User"}</h3>
 				<Dimmer.Dimmable as={Segment} dimmed={isSubmitting}>

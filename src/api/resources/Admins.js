@@ -54,6 +54,14 @@ export function Admins() {
                 "",
                 config
 			)
+		},
+		editAdminData: (data, config) => {
+			return executeRequest(
+				"POST",
+				baseURL + "/" + data.id,
+				data,
+				config
+			)
 		}
     }
 

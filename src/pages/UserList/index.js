@@ -75,13 +75,8 @@ class ListUser extends Component {
 					let totalPage = Math.ceil(data.totalData / data.perPage);
 
 					data.listData.map((item) => {
-						// item.createdAt = DateFormater(item.createdAt, true);
-						// item.borrowerType =
-						// 	item.userType && item.userType.value;
-						// item.borrowerStatus = item.status && item.status.value;
-
 						item.view = (
-							<Link to={`/user/${item.id}`} state={{ isEditing: true}}>
+							<Link to={`/user/${item.id}`} state={{ isEditing: true }}>
 								<AnimatedButton
 									content="Edit"
 									color="blue"

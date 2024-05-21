@@ -36,20 +36,7 @@ const Login = (props) => {
 
 	const { action, userLogIn, userRenewPassword } = props;
 
-	// useEffect(() => {
-	// 	const parsed = qs.parse(location.search);
-
-	// 	if (parsed?.token) {
-	// 		setFormData({
-	// 			...formData,
-	// 			token: parsed?.token,
-	// 		});
-	// 		setPage("newPassword");
-	// 	}
-	// }, []);
-
 	useEffect(() => {
-
 		if (userLogIn?.type) {
 			const { type, data } = userLogIn;
 

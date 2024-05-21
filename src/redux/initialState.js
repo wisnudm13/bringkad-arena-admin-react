@@ -5,6 +5,7 @@ export default {
 		adminPasswordChange: {},
 		adminList: {},
 		adminData: {},
+		editAdminData: {},
 	},
 	Users: {
 		userList: {},
