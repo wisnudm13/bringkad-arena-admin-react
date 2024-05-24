@@ -112,6 +112,10 @@ const UserDetail = ({ action, ...props }) => {
 				type: "errorMessage",
 				message: "Error updating user data",
 			});
+			setTimeout(() => {
+				setIsShowAlert(false)
+				clearAlertMessage()
+			}, 5000);
 
         } else {
             setIsSubmitting(false);
@@ -120,10 +124,13 @@ const UserDetail = ({ action, ...props }) => {
 				type: "successMessage",
 				message: "Successfully updated user data",
 			});
-			// setTimeout(() => {
-			// 	formik.resetForm();
-			// 	navigate(`/user/${userID}`, { state: {isEditing: true}});
-			// }, 600000);
+			setTimeout(() => {
+				formik.resetForm();
+				setIsShowAlert(false)
+				clearAlertMessage()
+				window.location.reload()
+				// navigate(`/user/${userID}`, { state: {isEditing: true}});
+			}, 5000);
         }
 	}
 
@@ -145,7 +152,7 @@ const UserDetail = ({ action, ...props }) => {
 				type={alertMessage.type}
 				visible={isShowAlert}
 				animation="slide down"
-				duration={1000}
+				duration={1}
 				message={alertMessage.message}
 				onClick={clearAlertMessage}
 			/>

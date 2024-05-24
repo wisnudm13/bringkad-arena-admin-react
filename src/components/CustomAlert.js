@@ -49,6 +49,7 @@ const CustomAlert = ({ type, visible, animation, duration, message }) => {
 	if (type === "successMessage") {
 		return (
 			<Transition
+				unmountOnHide={true}
 				visible={visible}
 				animation={animation}
 				duration={duration}
