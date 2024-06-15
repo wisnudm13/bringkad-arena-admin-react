@@ -311,6 +311,45 @@ class ListAdmin extends Component {
 					message={alertMessage.message}
 					// onClick={clearAlertMessage}
 				/>
+				<DefaultModal
+					header="Caution"
+					content={
+						<Fragment>
+							<p>
+								Are you sure you want to delete this data?
+							</p>
+						</Fragment>
+					}
+					actions={
+						<Grid>
+							<Row centered columns="equal">
+								<Column>
+									<FunctionButton
+										content="Cancel"
+										color="grey"
+										onClick={this.toggleShowRemoveModal}
+										loading={null}
+										disabled={null}
+										fluid
+									/>
+								</Column>
+								<Column>
+									<FunctionButton
+										content="Delete"
+										color="red"
+										value={true}
+										onClick={this.onSubmitDelete}
+										loading={null}
+										disabled={null}
+										fluid
+									/>
+								</Column>
+							</Row>
+						</Grid>
+					}
+					open={isDeleteModalOpen}
+					size="tiny"
+				/>
 				<Layout location={location} isListLoading={isListLoading}>
 					<Grid padded>
 						{/** Filtering content */}
@@ -323,45 +362,6 @@ class ListAdmin extends Component {
 						{/** Table content */}
 
 						<Row columns={1}>
-							<DefaultModal
-								header="Caution"
-								content={
-									<Fragment>
-										<p>
-											Are you sure you want to delete this data?
-										</p>
-									</Fragment>
-								}
-								actions={
-									<Grid>
-										<Row centered columns="equal">
-											<Column>
-												<FunctionButton
-													content="Cancel"
-													color="grey"
-													onClick={this.toggleShowRemoveModal}
-													loading={null}
-													disabled={null}
-													fluid
-												/>
-											</Column>
-											<Column>
-												<FunctionButton
-													content="Delete"
-													color="red"
-													value={true}
-													onClick={this.onSubmitDelete}
-													loading={null}
-													disabled={null}
-													fluid
-												/>
-											</Column>
-										</Row>
-									</Grid>
-								}
-								open={isDeleteModalOpen}
-								size="tiny"
-							/>
 							<Column>
 								<ListAdminTable
 									handlePaginationChange={

@@ -32,13 +32,12 @@ const adminSchema = yup.object().shape({
 	password: yup.string(),
 	confirmPassword: 
 		yup.string().oneOf([yup.ref("password"), null], "Confirm Password must be the same with Password")
-		// .when("password", {
-		// 	is: (password) => password.length > 0,
-		// 	then: () => yup.string().required("Confirm Password is required"),
-		// 	otherwise: () => yup.string().notRequired(),
-		// })
+		.when("password", {
+			is: (password) => password.length > 0,
+			then: () => yup.string().required("Confirm Password is required"),
+			otherwise: () => yup.string().notRequired(),
+		})
 })
-
 
 const AdminDetail = ({ action, ...props }) => {
 	const [isListLoading, setIsListLoading] = useState(true);
@@ -219,7 +218,7 @@ const AdminDetail = ({ action, ...props }) => {
 		<>
 			<CustomAlert
 				type={alertMessage.type}
-				visible={alertMessage.type}
+				visible={isShowAlert}
 				animation="slide down"
 				duration={1000}
 				message={alertMessage.message}

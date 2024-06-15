@@ -3,7 +3,7 @@ import * as action from "../../redux/action";
 import Layout from "../../components/Layout";
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import * as yup from "yup";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { useFormik } from "formik";
@@ -23,7 +23,17 @@ import { FormInput } from "components/Input";
 import BringkadArenaAPI from "services/InternalAPI";
 import CustomAlert from "components/CustomAlert";
 
-
+const userSchema = yup.object().shape({
+	password: 
+		yup.string().nullable(true),
+	confirmPassword: 
+		yup.string().nullable(true).oneOf([yup.ref("password")], "Confirm Password must be the same with Password")
+		// .when("password", {	
+		// 	is: (password) => password.length > 0,
+		// 	then: () => yup.string().required("Confirm Password is required"),
+		// 	otherwise: () => yup.string().notRequired(),
+		// })
+})
 
 const { Row, Column } = Grid;
 
@@ -42,22 +52,35 @@ const UserDetail = ({ action, ...props }) => {
 	let navigate = useNavigate();
 
 	useEffect(() => {
-		handleGetUserData();
+		if (isEditing) {
+			handleGetUserData();
+		}
 	}, []);
 
 	useEffect(() => {
-		if (props.userData?.type === 200) {
-            const data = props.userData.data;
-            if (!data) return;
-            const values = {
-                id: data.id,
-                phoneNumber: data.phoneNumber,
-            };
-
-            const finalData = { ...data, ...values };
-
-            setInitialValues(finalData);
+		let initialData = {
+			id: null,
+			phoneNumber: "",
+			password: null,
+			confirmPassword: null
 		}
+
+
+		if (isEditing) {
+			if (props.userData?.type === 200) {
+				const data = props.userData.data;
+				if (!data) return;
+				const values = {
+					id: data.id,
+					phoneNumber: data.phoneNumber,
+				};
+
+				initialData = { ...data, ...values };
+
+			}
+		}
+		setInitialValues(initialData);
+
 	}, [props.userData]);
 
 	const handleGetUserData = () => {
@@ -82,7 +105,7 @@ const UserDetail = ({ action, ...props }) => {
 
     const formik = useFormik({
 		initialValues: initialValues,
-		// validationSchema: validationSchema,
+		validationSchema: userSchema,
 		validateOnChange: true,
 		enableReinitialize: true,
 		onSubmit: (values) => {
@@ -91,24 +114,61 @@ const UserDetail = ({ action, ...props }) => {
 			const isEditing = location.state;
 			if (isEditing)
 				updateUserDetail(values);
-			// else createLiteBorrower(values, onSuccessfulSubmit, onFailedSubmit);
+			else createUserDetail(values);
 		},
 	});
 
-	const updateUserDetail = async (values, onSuccess, onFailure) => {
+	const createUserDetail = async (values) => {
+		const createUserResponse = await BringkadArenaAPI.createUserData({
+			name: values.name,
+            phone_number: values.phoneNumber,
+			password: values.password,
+			confirm_password: values.confirmPassword
+		})
+
+		if (createUserResponse.status !== 200) {
+            setIsSubmitting(false);
+			setIsShowAlert(true)
+			setAlertMessage({
+				type: "errorMessage",
+				message: createUserResponse.errors,
+			});
+			setTimeout(() => {
+				setIsShowAlert(false)
+				clearAlertMessage()
+			}, 4000);
+
+        } else {
+            setIsSubmitting(false);
+			setIsShowAlert(true)
+			setAlertMessage({
+				type: "successMessage",
+				message: "Successfully created user data",
+			});
+			setTimeout(() => {
+				formik.resetForm();
+				setIsShowAlert(false)
+				clearAlertMessage()
+				navigate("/user");
+			}, 1000);
+        }
+	}
+
+	const updateUserDetail = async (values) => {
 		const userID = values.id
 		const updateUserResponse = await BringkadArenaAPI.updateUserData({
             name: values.name,
-            phone_number: values.phoneNumber
+            phone_number: values.phoneNumber,
+			password: values.password,
+			confirm_password: values.confirmPassword
         }, userID)
 
         if (updateUserResponse.status !== 200) {
             setIsSubmitting(false);
 			setIsShowAlert(true)
-			// const errorMessage = updateUserResponse.errors;
 			setAlertMessage({
 				type: "errorMessage",
-				message: "Error updating user data",
+				message: updateUserResponse.errors
 			});
 			setTimeout(() => {
 				setIsShowAlert(false)
@@ -202,6 +262,41 @@ const UserDetail = ({ action, ...props }) => {
 									// 		content: formik.errors.name,
 									// 	}
 									// }
+									width="8"
+								/>
+								
+							</Form.Group>
+						</Row>
+						<Row>
+							<Form.Group>
+								<FormInput
+									name="password"
+									label="Password"
+									onChange={formik.handleChange}
+									onBlur={formik.handleBlur}
+									value={null}
+									type={"password"}
+									error={
+										formik.touched.password &&
+										formik.errors.password && {
+											content: formik.errors.password,
+										}
+									}
+									width="8"
+								/>
+                                <FormInput
+									name="confirmPassword"
+									label="Confirm Password"
+									onChange={formik.handleChange}
+									onBlur={formik.handleBlur}
+									value={null}
+									type={"password"}
+									error={
+										formik.touched.confirmPassword &&
+										formik.errors.confirmPassword && {
+											content: formik.errors.confirmPassword,
+										}
+									}
 									width="8"
 								/>
 								

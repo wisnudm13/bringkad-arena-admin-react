@@ -76,10 +76,25 @@ class BringkadArenaAPI {
 
     }
 
+    // USER API
+
     static updateUserData(data, userID) {
         const authToken = localStorage.getItem("userToken")
         return this.sendRequest(`/v1/users/admin/${userID}`, data, "application/json", authToken, "put")
     }
+
+    static createUserData(data) {
+        const authToken = localStorage.getItem("userToken")
+        console.log("daszxcxzcz")
+        return this.sendRequest(`/v1/users/register`, data, "application/json", authToken, "post")
+    }
+
+    static deleteUserData(userID) {
+        const authToken = localStorage.getItem("userToken")
+        return this.sendRequest(`/v1/users/${userID}`, null, null, authToken, "delete")
+    }
+
+    // ADMIN API
 
     static updateAdminData(data, adminID) {
         const authToken = localStorage.getItem("userToken")

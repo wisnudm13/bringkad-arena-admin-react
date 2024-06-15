@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 // import { DateFormater } from "../../utilities/dataFormater";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-
+import CustomAlert from "components/CustomAlert";
 import * as action from "../../redux/action";
 import { DefaultModal } from "components/Modal";
-
+import BringkadArenaAPI from "services/InternalAPI";
 import Layout from "../../components/Layout";
 import { FunctionButton, AnimatedButton } from "../../components/Button";
 
@@ -32,6 +32,8 @@ class ListUser extends Component {
 		this.state = {
 			isListLoading: false,
 			notification: false,
+			alertMessage: {},
+			showAlertMessage: false,
 			listData: [],
 			params: {
 				per_page: 10,
@@ -92,6 +94,11 @@ class ListUser extends Component {
 								content="Delete"
 								color="red"
 								icon="trash alternate"
+								onClick={() =>
+									this.toggleShowRemoveModal(
+										item
+									)
+								}
 							/>
 						);
 
@@ -126,6 +133,64 @@ class ListUser extends Component {
 				}
 			}
 		}
+	}
+
+	toggleShowRemoveModal = (data) => {
+		this.setState((prevState) => ({
+			isDeleteModalOpen: !prevState.isDeleteModalOpen,
+			selectedData: data,
+		}));
+	};
+
+	onSubmitDelete = async () => {
+		const { selectedData } = this.state;
+
+		const deleteUserResponse = await BringkadArenaAPI.deleteUserData(
+			selectedData.id
+		)
+
+		this.toggleShowRemoveModal()
+
+		if (deleteUserResponse.status !== 200) {
+			this.setState(
+				{ 
+					showAlertMessage: true,
+					alertMessage: {
+						message: deleteUserResponse.errors,
+						type: "errorMessage"
+					}
+				}
+			);
+			setTimeout(() => {
+				this.setState(
+					{ 
+						showAlertMessage: false,
+						alertMessage: {}
+					}
+				);
+			}, 1000);
+
+        } else {
+			this.setState(
+				{ 
+					showAlertMessage: true,
+					alertMessage: {
+						message: "Successfully deleted user data",
+						type: "successMessage"
+					}
+				}
+			);
+			setTimeout(() => {
+				this.setState(
+					{ 
+						showAlertMessage: true,
+						alertMessage: {}
+					}
+				);
+				this.onGetList();
+			}, 1000);
+        }
+
 	}
 
 	onGetList = (params) => {
@@ -228,86 +293,140 @@ class ListUser extends Component {
 	}
 
 	render() {
-		const { isListLoading, listData } = this.state;
+		const { 
+			isListLoading, 
+			isDeleteModalOpen, 
+			alertMessage, 
+			showAlertMessage 
+		} = this.state;
 		const { location } = this.props;
 
 		return (
-			<Layout location={location} isListLoading={isListLoading}>
-				<Grid padded>
-					{/** Filtering content */}
-					<Row columns={1}>
-						<Column>
-							<UserFilter onGetList={this.onGetList} />
-						</Column>
-					</Row>
+			<>
+				<CustomAlert
+					type={alertMessage.type}
+					visible={showAlertMessage}
+					animation="slide down"
+					duration={1000}
+					message={alertMessage.message}
+					// onClick={clearAlertMessage}
+				/>
+				<DefaultModal
+					header="Caution"
+					content={
+						<Fragment>
+							<p>
+								Are you sure you want to delete this data?
+							</p>
+						</Fragment>
+					}
+					actions={
+						<Grid>
+							<Row centered columns="equal">
+								<Column>
+									<FunctionButton
+										content="Cancel"
+										color="grey"
+										onClick={this.toggleShowRemoveModal}
+										loading={null}
+										disabled={null}
+										fluid
+									/>
+								</Column>
+								<Column>
+									<FunctionButton
+										content="Delete"
+										color="red"
+										value={true}
+										onClick={this.onSubmitDelete}
+										loading={null}
+										disabled={null}
+										fluid
+									/>
+								</Column>
+							</Row>
+						</Grid>
+					}
+					open={isDeleteModalOpen}
+					size="tiny"
+				/>
+				<Layout location={location} isListLoading={isListLoading}>
+					<Grid padded>
+						{/** Filtering content */}
+						<Row columns={1}>
+							<Column>
+								<UserFilter onGetList={this.onGetList} />
+							</Column>
+						</Row>
 
-					{/** Table content */}
+						{/** Table content */}
 
-					<Row columns={1}>
-					{/* <DefaultModal
-						trigger={
-							<Form.Field
-								control={FunctionButton}
-								type="button"
-								color="blue"
-								content="Setuju"
-								onClick={null}
-								loading={null}
-								disabled={null}
-								floated="left"
-								margin="30px 0 45px 8px"
-							/>
-						}
-						header="Caution"
-						content={
-							<Fragment>
-								<p>
-									Are you sure you want to delete this data?
-								</p>
-							</Fragment>
-						}
-						actions={
-							<Grid>
-								<Row centered columns="equal">
-									<Column>
-										<FunctionButton
-											content="Cancel"
-											color="grey"
-											onClick={null}
-											loading={null}
-											disabled={null}
-											fluid
-										/>
-									</Column>
-									<Column>
-										<FunctionButton
-											content="Approve"
-											color="blue"
-											value={true}
-											onClick={null}
-											loading={null}
-											disabled={null}
-											fluid
-										/>
-									</Column>
-								</Row>
-							</Grid>
-						}
-						open={true}
-						size="tiny"
-					/> */}
-						<Column>
-							<ListUserTable
-								handlePaginationChange={
-									this.handlePaginationChange
-								}
-								{...this.state}
-								headers={headers}
-							/>
-						</Column>
-					</Row>
-				</Grid>
-			</Layout>
+						<Row columns={1}>
+						{/* <DefaultModal
+							trigger={
+								<Form.Field
+									control={FunctionButton}
+									type="button"
+									color="blue"
+									content="Setuju"
+									onClick={null}
+									loading={null}
+									disabled={null}
+									floated="left"
+									margin="30px 0 45px 8px"
+								/>
+							}
+							header="Caution"
+							content={
+								<Fragment>
+									<p>
+										Are you sure you want to delete this data?
+									</p>
+								</Fragment>
+							}
+							actions={
+								<Grid>
+									<Row centered columns="equal">
+										<Column>
+											<FunctionButton
+												content="Cancel"
+												color="grey"
+												onClick={null}
+												loading={null}
+												disabled={null}
+												fluid
+											/>
+										</Column>
+										<Column>
+											<FunctionButton
+												content="Approve"
+												color="blue"
+												value={true}
+												onClick={null}
+												loading={null}
+												disabled={null}
+												fluid
+											/>
+										</Column>
+									</Row>
+								</Grid>
+							}
+							open={true}
+							size="tiny"
+						/> */}
+							<Column>
+								<ListUserTable
+									handlePaginationChange={
+										this.handlePaginationChange
+									}
+									{...this.state}
+									headers={headers}
+								/>
+							</Column>
+						</Row>
+					</Grid>
+				</Layout>
+			</>
 		);
 	}
 }
