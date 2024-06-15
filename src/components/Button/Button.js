@@ -27,6 +27,11 @@ const colorDictionary = (color) => {
 			buttonStyle.border = "none";
 			buttonStyle.background = "#0146a0";
 			break;
+		case "teal":
+			buttonStyle.color = "#ffffff";
+			buttonStyle.border = "none";
+			buttonStyle.background = "#117dab";
+			break;
 		case "green":
 			buttonStyle.color = "#ffffff";
 			buttonStyle.border = "none";

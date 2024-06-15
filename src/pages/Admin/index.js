@@ -86,7 +86,7 @@ class ListAdmin extends Component {
 							<Link to={`/admin/${item.id}`} state={{ isEditing: true}}>
 								<AnimatedButton
 									content="Edit"
-									color="blue"
+									color="teal"
 									icon="edit"
 								/>
 							</Link>

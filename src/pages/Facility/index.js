@@ -86,7 +86,7 @@ class ListFacility extends Component {
 							<Link to={`/facility/${item.id}`} state={{ isEditing: true}}>
 								<AnimatedButton
 									content="Edit"
-									color="blue"
+									color="teal"
 									icon="edit"
 								/>
 							</Link>

@@ -1731,7 +1731,7 @@ const UserDetail = ({ action, ...props }) => {
 						<Row centered>
 							<FunctionButton
 								content="Save"
-								color="blue"
+								color="teal"
 								type="submit"
 								loading={isSubmitting}
 								disabled={

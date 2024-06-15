@@ -11,7 +11,7 @@ import Layout from "../../components/Layout";
 import { FunctionButton, AnimatedButton } from "../../components/Button";
 
 import ListUserTable from "./ListUserTable";
-// import ListBorrowerFilter from "./ListBorrowerFilter";
+import UserFilter from "./UserFilter";
 import withRouter from "../../withRouter";
 
 const { Row, Column } = Grid;
@@ -79,7 +79,7 @@ class ListUser extends Component {
 							<Link to={`/user/${item.id}`} state={{ isEditing: true }}>
 								<AnimatedButton
 									content="Edit"
-									color="blue"
+									color="teal"
 									icon="edit"
 								/>
 							</Link>
@@ -236,7 +236,7 @@ class ListUser extends Component {
 					{/** Filtering content */}
 					<Row columns={1}>
 						<Column>
-							{/* <ListBorrowerFilter onGetList={this.onGetList} /> */}
+							<UserFilter onGetList={this.onGetList} />
 						</Column>
 					</Row>
 
