@@ -11,7 +11,7 @@ import Layout from "../../components/Layout";
 import { FunctionButton, AnimatedButton } from "../../components/Button";
 
 import ListAdminTable from "./ListAdminTable";
-// import ListBorrowerFilter from "./ListBorrowerFilter";
+import AdminFilter from "./AdminFilter";
 import withRouter from "../../withRouter";
 
 const { Row, Column } = Grid;
@@ -243,7 +243,7 @@ class ListAdmin extends Component {
 					{/** Filtering content */}
 					<Row columns={1}>
 						<Column>
-							{/* <ListBorrowerFilter onGetList={this.onGetList} /> */}
+							<AdminFilter onGetList={this.onGetList} />
 						</Column>
 					</Row>
 

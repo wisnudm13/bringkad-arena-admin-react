@@ -6,7 +6,7 @@ import { debounce } from "lodash";
 // import { SearchFilterInput } from "../../components/Input/Input";
 import { FunctionButton } from "../../components/Button/Button";
 
-const UserFilter = ({ onGetList, ...rest }) => {
+const AdminFilter = ({ onGetList, ...rest }) => {
 	const [keywords, setkeywords] = useState("");
 	const [anchorName, setAnchorName] = useState("");
 	const navigate = useNavigate();
@@ -59,9 +59,9 @@ const UserFilter = ({ onGetList, ...rest }) => {
 			</Grid.Column> */}
 			<Grid.Column>
                 <FunctionButton
-                    content="Add User"
+                    content="Add Admin"
                     color="teal"
-                    onClick={() => navigate("/user/add")}
+                    onClick={() => navigate("/admin/add")}
                     style={{
                         float: "right",
                     }}
@@ -71,4 +71,4 @@ const UserFilter = ({ onGetList, ...rest }) => {
 	);
 };
 
-export default UserFilter;
+export default AdminFilter;

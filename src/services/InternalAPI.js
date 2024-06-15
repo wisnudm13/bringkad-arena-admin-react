@@ -83,6 +83,11 @@ class BringkadArenaAPI {
         return this.sendRequest(`/v1/admins/${adminID}`, data, "application/json", authToken, "put")
     }
 
+    static createAdminData(data) {
+        const authToken = localStorage.getItem("userToken")
+        return this.sendRequest("/v1/admins/register", data, "application/json", authToken, "post")
+    }
+
     static getAdminDataList() {
 
     }

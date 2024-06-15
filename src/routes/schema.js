@@ -125,6 +125,16 @@ export default [
 	},
 	{
 		exact: true,
+		path: "/user/add",
+		Element: UserDetail,
+		id: "userAdd",
+		name: "userAdd",
+		breadcrumb: [],
+		sidebarMenu: {},
+		subMenu: [],
+	},
+	{
+		exact: true,
 		path: "/user/:id",
 		Element: UserDetail,
 		id: "userDetail",
@@ -144,6 +154,16 @@ export default [
 		sidebarMenu: {
 			icon: "user",
 		},
+		subMenu: [],
+	},
+	{
+		exact: true,
+		path: "/admin/add",
+		Element: AdminDetail,
+		id: "adminAdd",
+		name: "adminAdd",
+		breadcrumb: [],
+		sidebarMenu: {},
 		subMenu: [],
 	},
 	{

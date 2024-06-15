@@ -23,6 +23,7 @@ import { DefaultFormInput } from "components/Form";
 import { FormInput } from "components/Input";
 import * as yup from "yup";
 import BringkadArenaAPI from "services/InternalAPI";
+import { prop, values } from "ramda";
 
 
 const { Row, Column } = Grid;
@@ -54,28 +55,47 @@ const AdminDetail = ({ action, ...props }) => {
     let location = useLocation();
 	let navigate = useNavigate();
 
+	const isEditing = location.state;
+
 	useEffect(() => {
-		handleGetAdminData();
+		if (isEditing) {
+			handleGetAdminData();
+		}
 	}, []);
 
 	useEffect(() => {
-		if (props.adminData?.type === 200) {
-            const data = props.adminData.data;
-            if (!data) return;
-            const values = {
-                id: data.id,
-                username: data.username,
-                email: data.email,
-                isActive: data.isActive,
-				password: null,
-				confirmPassword: null
-                
-            };
-
-            const finalData = { ...data, ...values };
-
-            setInitialValues(finalData);
+		let initialData = {
+			id: null,
+			username: "",
+			email: "",
+			isActive: false,
+			password: null,
+			confirmPassword: null
 		}
+
+
+		if (isEditing) {
+			if (props.adminData?.type === 200) {
+				const data = props.adminData.data;
+				if (!data) return;
+				const values = {
+					id: data.id,
+					username: data.username,
+					email: data.email,
+					isActive: data.isActive,
+					password: null,
+					confirmPassword: null
+					
+				};
+
+				initialData = { ...data, ...values };
+
+		}
+
+		}
+
+		setInitialValues(initialData);
+
 	}, [props.adminData]);
 
 	const handleGetAdminData = () => {
@@ -106,14 +126,52 @@ const AdminDetail = ({ action, ...props }) => {
 		onSubmit: (values) => {
 			setIsSubmitting(true);
 
-			const { isEditing } = location.state;
+			console.log(isEditing)
+
 			if (isEditing)
 				updateAdminDetail(values);
-			// else createLiteBorrower(values, onSuccessfulSubmit, onFailedSubmit);
+			else createAdminDetail(values);
 		},
 	});
 
-	const updateAdminDetail = async (values, onSuccess, onFailure) => {
+	const createAdminDetail = async (values) => {
+		const createAdminResponse = await BringkadArenaAPI.createAdminData({
+			username: values.username,
+            email: values.email,
+			password: values.password,
+			confirm_password: values.confirmPassword
+		})
+
+		if (createAdminResponse.status !== 200) {
+            setIsSubmitting(false);
+			setIsShowAlert(true)
+			// const errorMessage = updateAdminResponse.errors;
+			setAlertMessage({
+				type: "errorMessage",
+				message: "Error Creating admin data",
+			});
+			setTimeout(() => {
+				setIsShowAlert(false)
+				clearAlertMessage()
+			}, 4000);
+
+        } else {
+            setIsSubmitting(false);
+			setIsShowAlert(true)
+			setAlertMessage({
+				type: "successMessage",
+				message: "Successfully updated admin data",
+			});
+			setTimeout(() => {
+				formik.resetForm();
+				setIsShowAlert(false)
+				clearAlertMessage()
+				navigate("/admin");
+			}, 1000);
+        }
+	}
+
+	const updateAdminDetail = async (values) => {
 		const adminID = values.id
 		const updateAdminResponse = await BringkadArenaAPI.updateAdminData({
             username: values.username,
@@ -160,8 +218,6 @@ const AdminDetail = ({ action, ...props }) => {
 	// const handleTabChange = (e, { activeIndex }) => {
 	// 	setActiveIndex(activeIndex);
 	// };
-
-    const isEditing = location.state;
 
 	return (
 		<>
