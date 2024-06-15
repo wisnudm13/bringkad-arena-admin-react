@@ -6,11 +6,6 @@ const ListAdminTable = ({ handlePaginationChange, ...state }) => {
 	const { listData, showTotalData, pageOptions, isListLoading, headers } =
 		state;
 
-	// listData.forEach((data) => {
-	// 	if (data.userType && data.userType.name === "COMPANY") {
-	// 		data.fullName = data.companyName;
-	// 	}
-	// });
 	return (
 		<DefaultTable
 			isLoading={isListLoading}

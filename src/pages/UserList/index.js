@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Grid, Form, Message } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 // import { DateFormater } from "../../utilities/dataFormater";
@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import * as action from "../../redux/action";
+import { DefaultModal } from "components/Modal";
 
 import Layout from "../../components/Layout";
 import { FunctionButton, AnimatedButton } from "../../components/Button";
@@ -243,6 +244,58 @@ class ListUser extends Component {
 					{/** Table content */}
 
 					<Row columns={1}>
+					{/* <DefaultModal
+						trigger={
+							<Form.Field
+								control={FunctionButton}
+								type="button"
+								color="blue"
+								content="Setuju"
+								onClick={null}
+								loading={null}
+								disabled={null}
+								floated="left"
+								margin="30px 0 45px 8px"
+							/>
+						}
+						header="Caution"
+						content={
+							<Fragment>
+								<p>
+									Are you sure you want to delete this data?
+								</p>
+							</Fragment>
+						}
+						actions={
+							<Grid>
+								<Row centered columns="equal">
+									<Column>
+										<FunctionButton
+											content="Cancel"
+											color="grey"
+											onClick={null}
+											loading={null}
+											disabled={null}
+											fluid
+										/>
+									</Column>
+									<Column>
+										<FunctionButton
+											content="Approve"
+											color="blue"
+											value={true}
+											onClick={null}
+											loading={null}
+											disabled={null}
+											fluid
+										/>
+									</Column>
+								</Row>
+							</Grid>
+						}
+						open={true}
+						size="tiny"
+					/> */}
 						<Column>
 							<ListUserTable
 								handlePaginationChange={

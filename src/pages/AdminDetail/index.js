@@ -126,8 +126,6 @@ const AdminDetail = ({ action, ...props }) => {
 		onSubmit: (values) => {
 			setIsSubmitting(true);
 
-			console.log(isEditing)
-
 			if (isEditing)
 				updateAdminDetail(values);
 			else createAdminDetail(values);
@@ -145,10 +143,9 @@ const AdminDetail = ({ action, ...props }) => {
 		if (createAdminResponse.status !== 200) {
             setIsSubmitting(false);
 			setIsShowAlert(true)
-			// const errorMessage = updateAdminResponse.errors;
 			setAlertMessage({
 				type: "errorMessage",
-				message: "Error Creating admin data",
+				message: createAdminResponse.errors,
 			});
 			setTimeout(() => {
 				setIsShowAlert(false)
@@ -160,7 +157,7 @@ const AdminDetail = ({ action, ...props }) => {
 			setIsShowAlert(true)
 			setAlertMessage({
 				type: "successMessage",
-				message: "Successfully updated admin data",
+				message: "Successfully created admin data",
 			});
 			setTimeout(() => {
 				formik.resetForm();
@@ -183,10 +180,9 @@ const AdminDetail = ({ action, ...props }) => {
         if (updateAdminResponse.status !== 200) {
             setIsSubmitting(false);
 			setIsShowAlert(true)
-			// const errorMessage = updateAdminResponse.errors;
 			setAlertMessage({
 				type: "errorMessage",
-				message: "Error updating user data",
+				message: "Error updating admin data",
 			});
 			setTimeout(() => {
 				setIsShowAlert(false)
@@ -198,7 +194,7 @@ const AdminDetail = ({ action, ...props }) => {
 			setIsShowAlert(true)
 			setAlertMessage({
 				type: "successMessage",
-				message: "Successfully updated user data",
+				message: "Successfully updated admin data",
 			});
 			setTimeout(() => {
 				formik.resetForm();

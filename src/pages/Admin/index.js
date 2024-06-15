@@ -1,18 +1,19 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Grid, Form, Message } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 // import { DateFormater } from "../../utilities/dataFormater";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-
+import { DefaultModal } from "components/Modal";
 import * as action from "../../redux/action";
-
+import BringkadArenaAPI from "services/InternalAPI";
 import Layout from "../../components/Layout";
 import { FunctionButton, AnimatedButton } from "../../components/Button";
-
+import CustomAlert from "components/CustomAlert";
 import ListAdminTable from "./ListAdminTable";
 import AdminFilter from "./AdminFilter";
 import withRouter from "../../withRouter";
+import { useNavigate } from "react-router-dom";
 
 const { Row, Column } = Grid;
 
@@ -31,6 +32,8 @@ class ListAdmin extends Component {
 		this.state = {
 			isListLoading: false,
 			notification: false,
+			alertMessage: {},
+			showAlertMessage: false,
 			listData: [],
 			params: {
 				per_page: 10,
@@ -70,18 +73,11 @@ class ListAdmin extends Component {
 		if (isListLoading && adminList) {
 			if (prevProps.adminList !== adminList) {
 				const { data, type } = adminList;
-				console.log("did update")
-				console.log(data)
-				console.log(type)
+
 				if (type === 200) {
 					let totalPage = Math.ceil(data.totalData / data.perPage);
 
 					data.listData.map((item) => {
-						// item.createdAt = DateFormater(item.createdAt, true);
-						// item.borrowerType =
-						// 	item.userType && item.userType.value;
-						// item.borrowerStatus = item.status && item.status.value;
-
 						item.view = (
 							<Link to={`/admin/${item.id}`} state={{ isEditing: true}}>
 								<AnimatedButton
@@ -98,6 +94,11 @@ class ListAdmin extends Component {
 								content="Delete"
 								color="red"
 								icon="trash alternate"
+								onClick={() =>
+									this.toggleShowRemoveModal(
+										item
+									)
+								}
 							/>
 						);
 
@@ -132,6 +133,64 @@ class ListAdmin extends Component {
 				}
 			}
 		}
+	}
+
+	toggleShowRemoveModal = (data) => {
+		this.setState((prevState) => ({
+			isDeleteModalOpen: !prevState.isDeleteModalOpen,
+			selectedData: data,
+		}));
+	};
+
+	onSubmitDelete = async () => {
+		const { selectedData, showAlertMessage } = this.state;
+
+		const deleteAdminResponse = await BringkadArenaAPI.deleteAdminData(
+			selectedData.id
+		)
+
+		this.toggleShowRemoveModal()
+
+		if (deleteAdminResponse.status !== 200) {
+			this.setState(
+				{ 
+					showAlertMessage: true,
+					alertMessage: {
+						message: deleteAdminResponse.errors,
+						type: "errorMessage"
+					}
+				}
+			);
+			setTimeout(() => {
+				this.setState(
+					{ 
+						showAlertMessage: false,
+						alertMessage: {}
+					}
+				);
+			}, 1000);
+
+        } else {
+			this.setState(
+				{ 
+					showAlertMessage: true,
+					alertMessage: {
+						message: "Successfully deleted admin data",
+						type: "successMessage"
+					}
+				}
+			);
+			setTimeout(() => {
+				this.setState(
+					{ 
+						showAlertMessage: true,
+						alertMessage: {}
+					}
+				);
+				this.onGetList();
+			}, 1000);
+        }
+
 	}
 
 	onGetList = (params) => {
@@ -234,34 +293,88 @@ class ListAdmin extends Component {
 	}
 
 	render() {
-		const { isListLoading, listData } = this.state;
+		const { 
+			isListLoading, 
+			isDeleteModalOpen, 
+			alertMessage, 
+			showAlertMessage 
+		} = this.state;
 		const { location } = this.props;
 
 		return (
-			<Layout location={location} isListLoading={isListLoading}>
-				<Grid padded>
-					{/** Filtering content */}
-					<Row columns={1}>
-						<Column>
-							<AdminFilter onGetList={this.onGetList} />
-						</Column>
-					</Row>
+			<>
+				<CustomAlert
+					type={alertMessage.type}
+					visible={showAlertMessage}
+					animation="slide down"
+					duration={1000}
+					message={alertMessage.message}
+					// onClick={clearAlertMessage}
+				/>
+				<Layout location={location} isListLoading={isListLoading}>
+					<Grid padded>
+						{/** Filtering content */}
+						<Row columns={1}>
+							<Column>
+								<AdminFilter onGetList={this.onGetList} />
+							</Column>
+						</Row>
 
-					{/** Table content */}
+						{/** Table content */}
 
-					<Row columns={1}>
-						<Column>
-							<ListAdminTable
-								handlePaginationChange={
-									this.handlePaginationChange
+						<Row columns={1}>
+							<DefaultModal
+								header="Caution"
+								content={
+									<Fragment>
+										<p>
+											Are you sure you want to delete this data?
+										</p>
+									</Fragment>
 								}
-								{...this.state}
-								headers={headers}
+								actions={
+									<Grid>
+										<Row centered columns="equal">
+											<Column>
+												<FunctionButton
+													content="Cancel"
+													color="grey"
+													onClick={this.toggleShowRemoveModal}
+													loading={null}
+													disabled={null}
+													fluid
+												/>
+											</Column>
+											<Column>
+												<FunctionButton
+													content="Delete"
+													color="red"
+													value={true}
+													onClick={this.onSubmitDelete}
+													loading={null}
+													disabled={null}
+													fluid
+												/>
+											</Column>
+										</Row>
+									</Grid>
+								}
+								open={isDeleteModalOpen}
+								size="tiny"
 							/>
-						</Column>
-					</Row>
-				</Grid>
-			</Layout>
+							<Column>
+								<ListAdminTable
+									handlePaginationChange={
+										this.handlePaginationChange
+									}
+									{...this.state}
+									headers={headers}
+								/>
+							</Column>
+						</Row>
+					</Grid>
+				</Layout>
+			</>
 		);
 	}
 }

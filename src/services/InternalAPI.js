@@ -27,7 +27,7 @@ class BringkadArenaAPI {
         let message = "OK";
         let status = 200;
         let responseData = {};
-        let error = ""
+        let errors = ""
         const headers = this.createHeaders(contentType, authToken);
 
         if (method == null) {
@@ -44,20 +44,23 @@ class BringkadArenaAPI {
                 let response = await this.createClient(headers).put(url, data);
                 responseData = response.data.data
                 message = response.data.message
+
+            } else if (method == "delete") {
+                let response = await this.createClient(headers).delete(url, data);
+                responseData = response.data.data
+                message = response.data.message
             }
-            
+
         } catch (error) {
-            console.log(error)
             status = error.response.status;
             message = error.response.data.message;
-            error = error.response.data.errors
-            console.error(`Error processing request: ${error}`);
+            errors = error.response.data.errors
         }
 
         return {
             status: status,
             message: message,
-            errors: error,
+            errors: errors,
             data: responseData
         }
     }
@@ -86,6 +89,11 @@ class BringkadArenaAPI {
     static createAdminData(data) {
         const authToken = localStorage.getItem("userToken")
         return this.sendRequest("/v1/admins/register", data, "application/json", authToken, "post")
+    }
+
+    static deleteAdminData(adminID) {
+        const authToken = localStorage.getItem("userToken")
+        return this.sendRequest(`/v1/admins/${adminID}`, null, null, authToken, "delete")
     }
 
     static getAdminDataList() {
