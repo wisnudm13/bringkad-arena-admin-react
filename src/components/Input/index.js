@@ -37,10 +37,11 @@ export const FormInput = (props) => {
 
 	return (
 		<Form.Input
+			type={props.type ? "text" : props.type}
 			fluid
 			placeholder={props.label}
 			label={props.label}
-			width={7}
+			width={props.width}
 			defaultValue={defaultValue}
 			{...props}
 		>

@@ -100,9 +100,7 @@ const UserDetail = ({ action, ...props }) => {
 		const updateUserResponse = await BringkadArenaAPI.updateUserData({
             name: values.name,
             phone_number: values.phoneNumber
-        }, values.id)
-
-		console.log(updateUserResponse)
+        }, userID)
 
         if (updateUserResponse.status !== 200) {
             setIsSubmitting(false);
@@ -115,7 +113,7 @@ const UserDetail = ({ action, ...props }) => {
 			setTimeout(() => {
 				setIsShowAlert(false)
 				clearAlertMessage()
-			}, 5000);
+			}, 4000);
 
         } else {
             setIsSubmitting(false);
@@ -128,9 +126,8 @@ const UserDetail = ({ action, ...props }) => {
 				formik.resetForm();
 				setIsShowAlert(false)
 				clearAlertMessage()
-				window.location.reload()
-				// navigate(`/user/${userID}`, { state: {isEditing: true}});
-			}, 5000);
+				navigate("/user");
+			}, 1000);
         }
 	}
 

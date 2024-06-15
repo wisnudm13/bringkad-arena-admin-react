@@ -3,6 +3,7 @@ import * as action from "../../redux/action";
 import Layout from "../../components/Layout";
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import CustomAlert from "components/CustomAlert";
 
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -20,10 +21,22 @@ import { FunctionButton } from "components/Button";
 import { DefaultForm } from "components/Form";
 import { DefaultFormInput } from "components/Form";
 import { FormInput } from "components/Input";
+import * as yup from "yup";
+import BringkadArenaAPI from "services/InternalAPI";
 
 
 const { Row, Column } = Grid;
 
+const adminSchema = yup.object().shape({
+	password: yup.string(),
+	confirmPassword: 
+		yup.string().oneOf([yup.ref("password"), null], "Confirm Password must be the same with Password")
+		// .when("password", {
+		// 	is: (password) => password.length > 0,
+		// 	then: () => yup.string().required("Confirm Password is required"),
+		// 	otherwise: () => yup.string().notRequired(),
+		// })
+})
 
 
 const AdminDetail = ({ action, ...props }) => {
@@ -34,6 +47,8 @@ const AdminDetail = ({ action, ...props }) => {
 	const [userType, setUserType] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [initialValues, setInitialValues] = useState({});
+	const [isShowAlert, setIsShowAlert] = useState(false);
+	const [alertMessage, setAlertMessage] = useState({});
 
 
     let location = useLocation();
@@ -52,6 +67,8 @@ const AdminDetail = ({ action, ...props }) => {
                 username: data.username,
                 email: data.email,
                 isActive: data.isActive,
+				password: null,
+				confirmPassword: null
                 
             };
 
@@ -83,18 +100,58 @@ const AdminDetail = ({ action, ...props }) => {
 
     const formik = useFormik({
 		initialValues: initialValues,
-		// validationSchema: validationSchema,
+		validationSchema: adminSchema,
 		validateOnChange: true,
 		enableReinitialize: true,
 		onSubmit: (values) => {
 			setIsSubmitting(true);
 
 			const { isEditing } = location.state;
-			// if (isEditing)
-			// 	updateLiteBorrower(values, onSuccessfulSubmit, onFailedSubmit);
+			if (isEditing)
+				updateAdminDetail(values);
 			// else createLiteBorrower(values, onSuccessfulSubmit, onFailedSubmit);
 		},
 	});
+
+	const updateAdminDetail = async (values, onSuccess, onFailure) => {
+		const adminID = values.id
+		const updateAdminResponse = await BringkadArenaAPI.updateAdminData({
+            username: values.username,
+            // email: values.email,
+			password: values.password,
+			confirm_password: values.confirmPassword
+        }, adminID)
+
+        if (updateAdminResponse.status !== 200) {
+            setIsSubmitting(false);
+			setIsShowAlert(true)
+			// const errorMessage = updateAdminResponse.errors;
+			setAlertMessage({
+				type: "errorMessage",
+				message: "Error updating user data",
+			});
+			setTimeout(() => {
+				setIsShowAlert(false)
+				clearAlertMessage()
+			}, 4000);
+
+        } else {
+            setIsSubmitting(false);
+			setIsShowAlert(true)
+			setAlertMessage({
+				type: "successMessage",
+				message: "Successfully updated user data",
+			});
+			setTimeout(() => {
+				formik.resetForm();
+				setIsShowAlert(false)
+				clearAlertMessage()
+				navigate("/admin");
+			}, 1000);
+        }
+	}
+
+	const clearAlertMessage = () => setAlertMessage({});
 
 	// const handleToggleNotification = (notification) => {
 	// 	setNotification(notification);
@@ -108,14 +165,14 @@ const AdminDetail = ({ action, ...props }) => {
 
 	return (
 		<>
-			{/* <CustomAlert
+			<CustomAlert
 				type={alertMessage.type}
 				visible={alertMessage.type}
 				animation="slide down"
 				duration={1000}
 				message={alertMessage.message}
 				onClick={clearAlertMessage}
-			/> */}
+			/>
 			<Layout location={location} isListLoading={false}>
 				<h3> {isEditing ? "Edit Admin" : "Add Admin"}</h3>
 				<Dimmer.Dimmable as={Segment} dimmed={isSubmitting}>
@@ -133,7 +190,7 @@ const AdminDetail = ({ action, ...props }) => {
 						<Row>
 							<Column width="16">
 								<br />
-								Identity Data
+								Admin Data
 								<hr />
 							</Column>
 						</Row>
@@ -145,12 +202,12 @@ const AdminDetail = ({ action, ...props }) => {
 									onChange={formik.handleChange}
 									onBlur={formik.handleBlur}
 									value={formik.values.username}
-									// error={
-									// 	formik.touched.name &&
-									// 	formik.errors.name && {
-									// 		content: formik.errors.name,
-									// 	}
-									// }
+									error={
+										formik.touched.name &&
+										formik.errors.name && {
+											content: formik.errors.name,
+										}
+									}
 									width="8"
 								/>
                                 <FormInput
@@ -178,12 +235,13 @@ const AdminDetail = ({ action, ...props }) => {
 									onChange={formik.handleChange}
 									onBlur={formik.handleBlur}
 									value={null}
-									// error={
-									// 	formik.touched.name &&
-									// 	formik.errors.name && {
-									// 		content: formik.errors.name,
-									// 	}
-									// }
+									type={"password"}
+									error={
+										formik.touched.name &&
+										formik.errors.name && {
+											content: formik.errors.name,
+										}
+									}
 									width="8"
 								/>
                                 <FormInput
@@ -192,12 +250,13 @@ const AdminDetail = ({ action, ...props }) => {
 									onChange={formik.handleChange}
 									onBlur={formik.handleBlur}
 									value={null}
-									// error={
-									// 	formik.touched.name &&
-									// 	formik.errors.name && {
-									// 		content: formik.errors.name,
-									// 	}
-									// }
+									type={"password"}
+									error={
+										formik.touched.confirmPassword &&
+										formik.errors.confirmPassword && {
+											content: formik.errors.confirmPassword,
+										}
+									}
 									width="8"
 								/>
 								
