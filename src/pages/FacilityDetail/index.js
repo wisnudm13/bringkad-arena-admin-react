@@ -184,8 +184,10 @@ const FacilityDetail = ({ action, ...props }) => {
 	const updateFacilityDetail = async (values) => {
 		const requestData = new FormData()
 		requestData.append("name", values.name)
-		requestData.append("type", values.type)
+		// requestData.append("type", values.type)
 		requestData.append("description", values.description)
+		if (typeof values.facilityImage !== "string")
+			requestData.append("facility_images", values.facilityImage);
 
 		const updateFacilityResponse = await BringkadArenaAPI.updateFacilityData(
 			requestData, values.id
