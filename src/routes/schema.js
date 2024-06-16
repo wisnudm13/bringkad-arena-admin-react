@@ -191,6 +191,16 @@ export default [
 	},
 	{
 		exact: true,
+		path: "/facility/add",
+		Element: FacilityDetail,
+		id: "facilityAdd",
+		name: "facilityAdd",
+		breadcrumb: [],
+		sidebarMenu: {},
+		subMenu: [],
+	},
+	{
+		exact: true,
 		path: "/facility/:id",
 		Element: FacilityDetail,
 		id: "facilityDetail",

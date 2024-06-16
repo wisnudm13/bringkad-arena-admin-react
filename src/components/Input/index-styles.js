@@ -1,5 +1,5 @@
 import React from "react";
-import { Form } from "semantic-ui-react";
+import { Form, Input } from "semantic-ui-react";
 import styled from "styled-components";
 // import { DatesRangeInput, DateInput } from "semantic-ui-calendar-react";
 
@@ -94,6 +94,29 @@ export const StyledSearchFilterInput = styled(({ ...props }) => (
 		i.icon {
 			color: #3a9fd7;
 		}
+	}
+`;
+
+export const FileUpload = styled(Input)`
+	&&.ui.input input[type="file"] {
+		color: transparent;
+		outline: none;
+		border: none;
+		padding: 0;
+		max-width: 93px;
+		white-space: nowrap;
+		position: initial;
+		opacity: 1;
+		font-size: 1rem;
+	}
+	&&.ui.input input[type="file"]::-webkit-file-upload-button {
+		visibility: hidden;
+	}
+	&&.ui.input input[type="file"]::before {
+		content: "+ Upload file";
+		cursor: pointer;
+		color: #3a9fd7;
+		font-family: "Poppins-SemiBold";
 	}
 `;
 

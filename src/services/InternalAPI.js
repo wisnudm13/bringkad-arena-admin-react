@@ -49,6 +49,12 @@ class BringkadArenaAPI {
                 let response = await this.createClient(headers).delete(url, data);
                 responseData = response.data.data
                 message = response.data.message
+
+            } else if (method == "get") {
+                let response = await this.createClient(headers).get(url, data);
+                responseData = response.data.data
+                message = response.data.message
+
             }
 
         } catch (error) {
@@ -117,6 +123,28 @@ class BringkadArenaAPI {
 
     static getUserDataList() {
         
+    }
+
+    // FACILITY API
+
+    static getFacilityType() {
+        return this.sendRequest("/v1/facilities/type/list", null, null, null, "get")
+    }
+
+    static updateFacilityData(data, facilityID) {
+        const authToken = localStorage.getItem("userToken")
+        return this.sendRequest(`/v1/facilities/${facilityID}`, data, "multipart/form-data", authToken, "put")
+    }
+
+    static createFacilityData(data) {
+        const authToken = localStorage.getItem("userToken")
+        return this.sendRequest("/v1/facilities/create", data, "multipart/form-data", authToken, "post")
+
+    }
+
+    static deleteFacilityData(facilityID) {
+        const authToken = localStorage.getItem("userToken")
+        return this.sendRequest(`/v1/facilities/${facilityID}`, null, null, authToken, "delete")
     }
 
 }

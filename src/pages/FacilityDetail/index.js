@@ -3,7 +3,7 @@ import * as action from "../../redux/action";
 import Layout from "../../components/Layout";
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import CustomAlert from "components/CustomAlert";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { useFormik } from "formik";
@@ -19,46 +19,77 @@ import {
 import { FunctionButton } from "components/Button";
 import { DefaultForm } from "components/Form";
 import { DefaultFormInput } from "components/Form";
-import { FormInput } from "components/Input";
-
+import { FormInput, FileInput } from "components/Input";
+import BringkadArenaAPI from "services/InternalAPI";
 
 const { Row, Column } = Grid;
-
-
 
 const FacilityDetail = ({ action, ...props }) => {
 	const [isListLoading, setIsListLoading] = useState(true);
 	const [notification, setNotification] = useState(false);
 	const [activeIndex, setActiveIndex] = useState(0);
-	const [userType, setUserType] = useState(false);
+	const [facilityType, setFacilityType] = useState(null)
+	const [facilityTypeList, setfacilityTypeList] = useState([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [initialValues, setInitialValues] = useState({});
-
+	const [isShowAlert, setIsShowAlert] = useState(false);
+	const [alertMessage, setAlertMessage] = useState({});
 
     let location = useLocation();
 	let navigate = useNavigate();
+	const isEditing = location.state;
 
 	useEffect(() => {
-		handleGetFacilityData();
-        // getInitialValue()
+		if (isEditing) {
+			handleGetFacilityData();
+		}
+
+		handleGetFacilityType()
+
 	}, []);
 
+	const handleGetFacilityType = async() => {
+		const facilityTypeResponse = await BringkadArenaAPI.getFacilityType()
+
+		setfacilityTypeList(
+			facilityTypeResponse.data.map((data) => {
+				return {
+					value: data.value,
+					text: data.text,
+				}
+		}))
+
+	}
+
 	useEffect(() => {
-		if (props.facilityData?.type === 200) {
-            const data = props.facilityData.data;
-            if (!data) return;
-            const values = {
-                id: data.id,
-                name: data.name,
-                type: data.type,
-                description: data.description,
-                status: data.active,
-            };
-
-            const finalData = { ...data, ...values };
-
-            setInitialValues(finalData);
+		let initialData = {
+			id: null,
+			name: "",
+			type: "",
+			description: "",
+			status: "",
+			facilityImage: ""
 		}
+
+		if (isEditing) {
+			if (props.facilityData?.type === 200) {
+				const data = props.facilityData.data;
+				if (!data) return;
+				const values = {
+					id: data.id,
+					name: data.name,
+					type: data.type,
+					description: data.description,
+					status: data.active,
+					facilityImage: data.facilityImage
+				};
+
+				initialData = { ...data, ...values };
+			}
+		}
+
+        setInitialValues(initialData);
+		
 	}, [props.facilityData]);
 
 	const handleGetFacilityData = () => {
@@ -81,23 +112,6 @@ const FacilityDetail = ({ action, ...props }) => {
 		});
 	};
 
-    // const getInitialValue = () => {
-    //     // const data = facilityData;
-    //     console.log("data " + data)
-	// 	if (!data) return;
-	// 	const values = {
-	// 		id: data.id,
-    //         username: data.username,
-    //         email: data.email,
-    //         isActive: data.is_active,
-			
-	// 	};
-
-	// 	const finalData = { ...data, ...values };
-
-	// 	setInitialValues(finalData);
-    // }
-
     const formik = useFormik({
 		initialValues: initialValues,
 		// validationSchema: validationSchema,
@@ -107,32 +121,117 @@ const FacilityDetail = ({ action, ...props }) => {
 			setIsSubmitting(true);
 
 			const isEditing = location.state;
-			// if (isEditing)
-			// 	updateLiteBorrower(values, onSuccessfulSubmit, onFailedSubmit);
-			// else createLiteBorrower(values, onSuccessfulSubmit, onFailedSubmit);
+			if (isEditing)
+				updateFacilityDetail(values);
+			else createFacilityDetail(values);
 		},
 	});
 
-	// const handleToggleNotification = (notification) => {
-	// 	setNotification(notification);
-	// };
+	const handleFileupload = (e, name) => {
+		e.preventDefault();
+		const file = e.target.files[0];
+		if (file) {
+			let reader = new FileReader();
+			reader.onloadend = () => {
+				formik.setFieldValue(name, file);
+				formik.setFieldValue(`${name}Preview`, reader.result);
+			};
+			file && reader.readAsDataURL(file, reader.result);
+		}
+	};
 
-	// const handleTabChange = (e, { activeIndex }) => {
-	// 	setActiveIndex(activeIndex);
-	// };
+	const createFacilityDetail = async (values) => {
+		const requestData = new FormData()
+		requestData.append("name", values.name)
+		requestData.append("type", values.type)
+		requestData.append("description", values.description)
 
-    const isEditing = location.state;
+		if (typeof values.facilityImage !== "string")
+			requestData.append("facility_images", values.facilityImage);
+
+		const createFacilityResponse = await BringkadArenaAPI.createFacilityData(
+			requestData
+		)
+
+		if (createFacilityResponse.status !== 200) {
+            setIsSubmitting(false);
+			setIsShowAlert(true)
+			setAlertMessage({
+				type: "errorMessage",
+				message: "Error creating facility data",
+			});
+			setTimeout(() => {
+				setIsShowAlert(false)
+				clearAlertMessage()
+			}, 4000);
+
+        } else {
+            setIsSubmitting(false);
+			setIsShowAlert(true)
+			setAlertMessage({
+				type: "successMessage",
+				message: "Successfully creating facility data",
+			});
+			setTimeout(() => {
+				formik.resetForm();
+				setIsShowAlert(false)
+				clearAlertMessage()
+				navigate("/facility");
+			}, 1000);
+        }
+	}
+
+	const updateFacilityDetail = async (values) => {
+		const requestData = new FormData()
+		requestData.append("name", values.name)
+		requestData.append("type", values.type)
+		requestData.append("description", values.description)
+
+		const updateFacilityResponse = await BringkadArenaAPI.updateFacilityData(
+			requestData, values.id
+		)
+
+		if (updateFacilityResponse.status !== 200) {
+            setIsSubmitting(false);
+			setIsShowAlert(true)
+			setAlertMessage({
+				type: "errorMessage",
+				message: "Error updating facility data",
+			});
+			setTimeout(() => {
+				setIsShowAlert(false)
+				clearAlertMessage()
+			}, 4000);
+
+        } else {
+            setIsSubmitting(false);
+			setIsShowAlert(true)
+			setAlertMessage({
+				type: "successMessage",
+				message: "Successfully updated facility data",
+			});
+			setTimeout(() => {
+				formik.resetForm();
+				setIsShowAlert(false)
+				clearAlertMessage()
+				navigate("/facility");
+			}, 1000);
+        }
+
+	}
+
+	const clearAlertMessage = () => setAlertMessage({});
 
 	return (
 		<>
-			{/* <CustomAlert
+			<CustomAlert
 				type={alertMessage.type}
-				visible={alertMessage.type}
+				visible={isShowAlert}
 				animation="slide down"
 				duration={1000}
 				message={alertMessage.message}
 				onClick={clearAlertMessage}
-			/> */}
+			/>
 			<Layout location={location} isListLoading={false}>
 				<h3> {isEditing ? "Edit Facility" : "Add Facility"}</h3>
 				<Dimmer.Dimmable as={Segment} dimmed={isSubmitting}>
@@ -157,20 +256,20 @@ const FacilityDetail = ({ action, ...props }) => {
 						<Row>
 							<Form.Group>
 								<FormInput
-									name="facilityName"
+									name="name"
 									label="Facility Name"
 									onChange={formik.handleChange}
 									onBlur={formik.handleBlur}
 									value={formik.values.name}
-									// error={
-									// 	formik.touched.name &&
-									// 	formik.errors.name && {
-									// 		content: formik.errors.name,
-									// 	}
-									// }
+									error={
+										formik.touched.name &&
+										formik.errors.name && {
+											content: formik.errors.name,
+										}
+									}
 									width="8"
 								/>
-                                <FormInput
+                                {/* <FormInput
 									name="type"
 									label="Facility Type"
 									onChange={formik.handleChange}
@@ -184,7 +283,40 @@ const FacilityDetail = ({ action, ...props }) => {
 									// }
 									width="8"
 								/>
-								
+								 */}
+								 <Form.Field
+									label="Facility Type"
+									name="type"
+									control={Select}
+									search
+									options={facilityTypeList}
+									value={
+										formik.values.type
+									}
+									disabled={isEditing}
+									onChange={(event, data) => {
+										formik.setFieldValue(
+											"type",
+											data.value
+										);
+										handleGetFacilityType(
+											data.value,
+											setFacilityType
+										);
+									}}
+									onBlur={formik.handleBlur}
+									width="8"
+									error={
+										formik.touched
+											.type &&
+										formik.errors
+											.type && {
+											content:
+												formik.errors
+													.type,
+										}
+									}
+								/>
 							</Form.Group>
 						</Row>
                         <Row>
@@ -220,39 +352,32 @@ const FacilityDetail = ({ action, ...props }) => {
 								
 							</Form.Group>
 						</Row>
-                        {/* <Row>
+                        <Row>
 							<Form.Group>
-								<FormInput
-									name="password"
-									label="Password"
-									onChange={formik.handleChange}
+								<FileInput
+									label="Facility Image 1"
+									type="file"
+									accept=".jpg,.jpeg,.png,.pdf,"
+									name="facilityImages"
+									selectedFile={formik.values.facilityImage}
+									preview={
+										formik.values.facilityImagePreview ||
+										(formik.values.facilityImage &&
+											`${process.env.REACT_APP_API_URL}/${formik.values.facilityImage}`
+										)
+									}
+									onChange={(e) => {
+										handleFileupload(e, "facilityImage");
+									}}
 									onBlur={formik.handleBlur}
-									value={null}
-									// error={
-									// 	formik.touched.name &&
-									// 	formik.errors.name && {
-									// 		content: formik.errors.name,
-									// 	}
-									// }
-									width="8"
-								/>
-                                <FormInput
-									name="confirmPassword"
-									label="Confirm Password"
-									onChange={formik.handleChange}
-									onBlur={formik.handleBlur}
-									value={null}
-									// error={
-									// 	formik.touched.name &&
-									// 	formik.errors.name && {
-									// 		content: formik.errors.name,
-									// 	}
-									// }
-									width="8"
-								/>
-								
+									// onRemove={() => removeFile("selfieImage")}
+									error={
+										formik.touched.facilityImage &&
+										formik.errors.facilityImage
+									}
+								/>								
 							</Form.Group>
-						</Row> */}
+						</Row>
 						{/* <Row> */}
 							{/* <Form.Group>
 								<FormInput

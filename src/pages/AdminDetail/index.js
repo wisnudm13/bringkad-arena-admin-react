@@ -24,7 +24,7 @@ import { FormInput } from "components/Input";
 import * as yup from "yup";
 import BringkadArenaAPI from "services/InternalAPI";
 import { prop, values } from "ramda";
-
+import { FileInput } from "components/Input";
 
 const { Row, Column } = Grid;
 
@@ -88,9 +88,7 @@ const AdminDetail = ({ action, ...props }) => {
 				};
 
 				initialData = { ...data, ...values };
-
-		}
-
+			}
 		}
 
 		setInitialValues(initialData);
@@ -313,46 +311,6 @@ const AdminDetail = ({ action, ...props }) => {
 								
 							</Form.Group>
 						</Row>
-						{/* <Row> */}
-							{/* <Form.Group>
-								<FormInput
-									label="KTP Number"
-									name="identityNumber"
-									onChange={formik.handleChange}
-									onBlur={formik.handleBlur}
-									value={formik.values.identityNumber}
-									error={
-										formik.touched.identityNumber &&
-										formik.errors.identityNumber && {
-											content:
-												formik.errors.identityNumber,
-										}
-									}
-									width="8"
-								/>
-								<FileInput
-									label="Selfie with KTP Image"
-									type="file"
-									accept=".jpg,.jpeg,.png,.pdf,"
-									name="selfieImage"
-									selectedFile={formik.values.selfieImage}
-									preview={
-										formik.values.selfieImagePreview ||
-										(formik.values.selfieImage &&
-											apiUrl + formik.values.selfieImage)
-									}
-									onChange={(e) => {
-										handleFileupload(e, "selfieImage");
-									}}
-									onBlur={formik.handleBlur}
-									onRemove={() => removeFile("selfieImage")}
-									error={
-										formik.touched.selfieImage &&
-										formik.errors.selfieImage
-									}
-								/>
-							</Form.Group>
-						</Row> */}
 						{/* <Row>
 							<Form.Group>
 								<FormInput

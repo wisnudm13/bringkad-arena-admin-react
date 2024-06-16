@@ -1,17 +1,17 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Grid, Form, Message } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 // import { DateFormater } from "../../utilities/dataFormater";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-
+import CustomAlert from "components/CustomAlert";
 import * as action from "../../redux/action";
-
+import { DefaultModal } from "components/Modal";
 import Layout from "../../components/Layout";
 import { FunctionButton, AnimatedButton } from "../../components/Button";
-
+import BringkadArenaAPI from "services/InternalAPI";
 import ListFacilityTable from "./ListFacilityTable";
-// import ListBorrowerFilter from "./ListBorrowerFilter";
+import FaciliyFilter from "./FacilityFilter";
 import withRouter from "../../withRouter";
 
 const { Row, Column } = Grid;
@@ -33,6 +33,8 @@ class ListFacility extends Component {
 		this.state = {
 			isListLoading: false,
 			notification: false,
+			alertMessage: {},
+			showAlertMessage: false,
 			listData: [],
 			params: {
 				per_page: 10,
@@ -97,6 +99,11 @@ class ListFacility extends Component {
 								content="Delete"
 								color="red"
 								icon="trash alternate"
+								onClick={() =>
+									this.toggleShowRemoveModal(
+										item
+									)
+								}
 							/>
 						);
 
@@ -132,6 +139,13 @@ class ListFacility extends Component {
 			}
 		}
 	}
+
+	toggleShowRemoveModal = (data) => {
+		this.setState((prevState) => ({
+			isDeleteModalOpen: !prevState.isDeleteModalOpen,
+			selectedData: data,
+		}));
+	};
 
 	onGetList = (params) => {
 		const { actions } = this.state;
@@ -232,35 +246,140 @@ class ListFacility extends Component {
 		}, 3000);
 	}
 
+	onSubmitDelete = async () => {
+		const { selectedData, showAlertMessage } = this.state;
+
+		const deleteFacilityResponse = await BringkadArenaAPI.deleteFacilityData(
+			selectedData.id
+		)
+
+		this.toggleShowRemoveModal()
+
+		if (deleteFacilityResponse.status !== 200) {
+			this.setState(
+				{ 
+					showAlertMessage: true,
+					alertMessage: {
+						message: deleteFacilityResponse.errors,
+						type: "errorMessage"
+					}
+				}
+			);
+			setTimeout(() => {
+				this.setState(
+					{ 
+						showAlertMessage: false,
+						alertMessage: {}
+					}
+				);
+			}, 1000);
+
+        } else {
+			this.setState(
+				{ 
+					showAlertMessage: true,
+					alertMessage: {
+						message: "Successfully deleted facility data",
+						type: "successMessage"
+					}
+				}
+			);
+			setTimeout(() => {
+				this.setState(
+					{ 
+						showAlertMessage: true,
+						alertMessage: {}
+					}
+				);
+				this.onGetList();
+			}, 1000);
+        }
+
+	}
+
 	render() {
-		const { isListLoading, listData } = this.state;
+		const { 
+			isListLoading, 
+			isDeleteModalOpen, 
+			alertMessage, 
+			showAlertMessage 
+		} = this.state;
 		const { location } = this.props;
 
 		return (
-			<Layout location={location} isListLoading={isListLoading}>
-				<Grid padded>
-					{/** Filtering content */}
-					<Row columns={1}>
-						<Column>
-							{/* <ListBorrowerFilter onGetList={this.onGetList} /> */}
-						</Column>
-					</Row>
+			<>
+				<CustomAlert
+					type={alertMessage.type}
+					visible={showAlertMessage}
+					animation="slide down"
+					duration={1000}
+					message={alertMessage.message}
+					// onClick={clearAlertMessage}
+				/>
+				<DefaultModal
+					header="Caution"
+					content={
+						<Fragment>
+							<p>
+								Are you sure you want to delete this data?
+							</p>
+						</Fragment>
+					}
+					actions={
+						<Grid>
+							<Row centered columns="equal">
+								<Column>
+									<FunctionButton
+										content="Cancel"
+										color="grey"
+										onClick={this.toggleShowRemoveModal}
+										loading={null}
+										disabled={null}
+										fluid
+									/>
+								</Column>
+								<Column>
+									<FunctionButton
+										content="Delete"
+										color="red"
+										value={true}
+										onClick={this.onSubmitDelete}
+										loading={null}
+										disabled={null}
+										fluid
+									/>
+								</Column>
+							</Row>
+						</Grid>
+					}
+					open={isDeleteModalOpen}
+					size="tiny"
+				/>
+				<Layout location={location} isListLoading={isListLoading}>
+					<Grid padded>
+						{/** Filtering content */}
+						<Row columns={1}>
+							<Column>
+								<FaciliyFilter onGetList={this.onGetList} />
+							</Column>
+						</Row>
 
-					{/** Table content */}
+						{/** Table content */}
 
-					<Row columns={1}>
-						<Column>
-							<ListFacilityTable
-								handlePaginationChange={
-									this.handlePaginationChange
-								}
-								{...this.state}
-								headers={headers}
-							/>
-						</Column>
-					</Row>
-				</Grid>
-			</Layout>
+						<Row columns={1}>
+							<Column>
+								<ListFacilityTable
+									handlePaginationChange={
+										this.handlePaginationChange
+									}
+									{...this.state}
+									headers={headers}
+								/>
+							</Column>
+						</Row>
+					</Grid>
+				</Layout>
+			</>
 		);
 	}
 }
